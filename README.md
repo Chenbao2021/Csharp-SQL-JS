@@ -1,2 +1,2 @@
 # C-et-SQL-Server
-Formation chez MetaFactory(ARCUEIL CACHAN)
+Formation chez MetaFactory
