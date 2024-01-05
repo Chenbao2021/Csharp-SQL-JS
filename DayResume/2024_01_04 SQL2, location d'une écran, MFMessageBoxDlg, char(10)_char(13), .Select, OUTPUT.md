@@ -67,6 +67,16 @@ dans l'écran qui apparaissent, la location de dll se trouve dans "Load Screen".
 #### 4 - On ne throne pas d'exception, on évite de remonter les erreurs
 
 #### 5 - On utilise MFMessageBoxDlg au lieu de MessageBox
+- MFMessageBoxDlg et MessageBox sont tous les deux des classes, qui ont des méthodes pour afficher des alertes .
+- On utilise ".ShowDialog()" pour afficher une alerte
+    ```
+    ShowDialog(Form frm, string sText, string sTitle, MFMessageBoxDlgButtons messageBoxButtons, MessageBoxIcon messageBoxIcon, MessageBoxDefaultButton defaultButton)
+    ```
+    - frm               : On met "this"
+    - sText             : Message erreur
+    - sTitle            : Le titre d'alerte , affiché en haut.
+    - messageBoxButtons : Constant prédéfinie, ex : MFMessageBoxDlgButtons.OK
+    - defaultButton     : Constant prédéfinie, ex : MessageBoxIcon.Error
 
 #### 6 - 1 test if puis le traitement à la ligne.
 
