@@ -20,7 +20,7 @@ Donc on peut déclarer une table temporaire dans une procédure A, et l'accéder
 #### 6. ville_nom_reel, et ville_name_reel , c'est probablement une faute de frappe, mais il faut confirmer avec ton supérieur.
 #### 7. Ajouter des commentaires 
 #### 8. Utiliser __INNER JOIN__ pour traiter des cas de 'multiple', jointure sur une valeur prcisé d'une parametre precisé.
-Exemple:
+Exemple 1:
     ```
     SELECT r.* 
     FROM region_cyu r 
@@ -32,6 +32,30 @@ Exemple:
     - Puis parmi les lignes qui ont la valeur 'region_sn', il fait une jointure sur la critère.
     - Exemple, on a deux valeurs pour c1 ('PACA', 'GE'). Donc après la jointure, on aura que les lignes de la table c1 qui 
     ont des valeurs 'PACA' et 'GE'. 
+
+Exemple 2 (Formation SQL2: INNER JOIN + CURSEUR):
+1. Declarer les variables pour le curseur
+    ```
+    DECLARE @nom_critere VARCHAR(255)
+    ````
+2. Declarer le curseur
+    ```
+    DECLARE cursor_multiple CURSOR FOR
+    SELECT DISTINCT nom_critere
+    FROM #tmp_critere
+    WHERE type_critere = 'multiple'
+    ```
+
+3. Construire les clauses INNER JOIN
+    ```
+    OPEN cursor_multiple
+    FETCH NEXT FROM cursor_multiple INTO @nom_critere
+    
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        SELECT @join = @join + ' INNER JOIN #tmp_critere c1 ON c1.nom_critere = ''' + @nom_critere + ''' and c1.valeur_critere = ' + @nom_critere
+    END
+    ```
 #### 9. Avec une table, on peut utiliser UPDATE pour des fonctions comme STR_AGG, SUBSTRING, LEFT , ça rend les codes plus lisible.
 
 #### 10. Préparation d'une requête JSON:
