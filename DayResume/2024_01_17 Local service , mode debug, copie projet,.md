@@ -14,11 +14,7 @@ SELECT
 ````
 # C#
 ***
-#### 1 - Creer requête JSON
-***
-
-***
-#### 2 -Local Server
+#### 1 -Local Server
 ***
 1. Telecharger le projet de service dans le répertoire : "D:\medissys\serveur\"
     depuis higgins (Comme celle de IOSREF), les projets de service se retrouve dans "medissys_srv".
@@ -34,7 +30,7 @@ SELECT
 6. Pour être sur que vous utilisez actuellement local service, clique "F5" dans l'écran Medissys, puis en bas , clique __"WCF SERVICE"__, puis clique droit, "connect to", puis choisir "localhost".
 
 ***
-#### 3 - Comment lancer le mode debug pour un projet client téléchargé depuis higgins 
+#### 2 - Comment lancer le mode debug pour un projet client téléchargé depuis higgins 
 ***
 1. On fait d'abord un CVER pour les projets sur HIGGINS
 2. On télécharge le projet dans le répertoire : "D:\medissys\client\"" ,
@@ -52,7 +48,7 @@ SELECT
 4. Et normalement, la tu peux lancer l'application avec Medissys.
 
 ***
-#### 4 - Lorsqu'on copie collé un projet, faut enlever les espaces, sinon Visual a du mal de se lancer.
+#### 3 - Lorsqu'on copie collé un projet, faut enlever les espaces, sinon Visual a du mal de se lancer.
 ***
 1. On utilise CTR+C+V pour cloner un proet, puis on enleve les espaces du répertoire copie collé, et enfin on peut travailler dessus.
 2. Le but de cloner un projet est pour éviter que nos modifications soient écrasé lorsqu'on fait un CVER.
