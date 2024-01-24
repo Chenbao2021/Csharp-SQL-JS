@@ -18,7 +18,10 @@ WCF : Appel serveur, c'est à dire ce sont des demandes du client vers serveur
 C#  : Appel client, c'est à dire c'est du serveur vers le client.
 
 
-
+***
+#### 3 - Erreur de regénérer en release
+***
+Vérifies qu'il n'y a aucun Medissys est entrain de lancer, car on ne peut pas générer en release si Medissys est ouvert.
 
 
 
