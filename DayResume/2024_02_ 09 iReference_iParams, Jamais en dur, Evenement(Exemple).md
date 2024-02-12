@@ -17,7 +17,7 @@ select @default_name = short_name from codetable where number = 185 and id = 857
 
 # C#
 ***
-#### I - Qu'est ce que c'est iReference et iParams?
+#### I - Qu'est ce que c'est iReference et iParams? (Codetable)
 ***
 Exemple : 
 ```
@@ -37,7 +37,10 @@ Plusieurs cas possible:
     ````
     select * from codetable where number = iParams
     ````
-
+    Exemple:
+      ````
+        select * from codetable where number = 252 order by short_name
+      ````
 ***
 #### II - Exemple pratique de Evenement
 ***
