@@ -41,7 +41,7 @@ m_grCostRefFamily.Columns[0].Width = 50;
 - IIF(expression, value_1, value2): Si expression est vrai, alors retourn value_1, sinon retourne value_2
 - CHOOSE(index, val_1, val_2 [, value_n]): Retourne l'élément à l'index spécifié à partir d'une liste de valeur.
     Exemples:
-    - 
+    - Selon le Month(date), distribuer le nom du mois
 ***
 #### IV - DataColumn.Expression
 ***
