@@ -45,7 +45,8 @@ SELECT
     | Démarrer le programme externe     | D:\medissys\Client\vc14d\MED.EXE |
     | Arguments de la ligne de commande | /Svs-tot-db03 /WN /Dtsigdev4 /C /L1 |
     | Repertoire de travail             | D:\medissys\Client\vc14d\ |
-4. Et normalement, la tu peux lancer l'application avec Medissys.
+   	- Le N = Lancer les services au local, si tu veux par défaut le Medissys lance au local, remplacer N par Y après W. 
+5. Et normalement, la tu peux lancer l'application avec Medissys.
 
 ***
 #### 3 - Lorsqu'on copie collé un projet, faut enlever les espaces, sinon Visual a du mal de se lancer.
