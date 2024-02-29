@@ -2,8 +2,8 @@
 ***
 #### I - Ne pas faire du test a la fin de la journée
 ***
-Ne pas faire tes tests à la fin de la journée avec un état fatigué, sinon on le fait chaque matinée, puis on le test bien . 
-Et une fois le test est finit, on peut donc partager l'avancement de dévéloppement.
+Ne pas faire tes tests à la fin de la journée dans un état fatigué, sinon on le fait chaque matinée en plein forme, et on le teste bien . 
+Et une fois le test est fait, on peut donc partager l'avancement avec ton N+1.
 
 
 # SQL 
