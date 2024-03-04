@@ -10,6 +10,10 @@ En principe, on a une fichier d'Excel, où on a tous les données à ajouter dan
 Chaque ligne correspond à une ligne dans la database.
 L'idée est donc :
 - Ecrire une formule Excel, pour transformer tous les colonnes d'une ligne en une string, qui se termine avec ",".
+    Par exemple
+      ````
+      = A3 & "= vb." & C3&","
+      ````
 - appliquer cette formule à tous les lignes d'Excel.
 - Copie coller tous ces strs .
 - Puis en SQL, on écrit la requête corresponde, et on colle ce qu'on a fait en Excel, par exemple pour Insert:
