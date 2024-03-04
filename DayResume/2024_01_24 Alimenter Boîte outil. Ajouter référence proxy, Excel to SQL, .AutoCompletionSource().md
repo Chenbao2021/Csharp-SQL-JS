@@ -10,7 +10,8 @@ En principe, on a une fichier d'Excel, où on a tous les données à ajouter dan
 Chaque ligne correspond à une ligne dans la database.
 L'idée est donc :
 - Ecrire une formule Excel, pour transformer tous les colonnes d'une ligne en une string, qui se termine avec ",".
-    Par exemple
+
+   Par exemple
       ````
       = A3 & "= vb." & C3&","
       ````
