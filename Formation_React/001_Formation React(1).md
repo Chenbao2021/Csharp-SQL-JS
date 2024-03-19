@@ -46,3 +46,9 @@
       );
     ````
     Attention : une fonction flèche à une ligne possède un return implicite.
+
+#### VIII - Suggestion : ctr + espace
+Ce raccourci petmet t'afficher les suggestion des codes.
+
+#### IX - Multi-curseur : ctr + D / shit + clic droit
+Augmente tes productivités.
