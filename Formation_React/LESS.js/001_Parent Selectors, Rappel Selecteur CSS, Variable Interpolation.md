@@ -42,8 +42,10 @@ Use cases:
 # Rappel sur les selecteurs CSS
 - .a + .b : Tous les b suivi de a.
 - .a .b : Tous les b qui se retrouvent dans a.
+- .a > .b : Tous les b qui sont des enfants directs de a
 - .a.b : Tout élement qui a simultanément la classe a, et la classe b
 - .a, .b; Tous les classes a et classe b.
+
 
 # Variable Interpolation
 - control values from a single location : @link-color = #428bca
