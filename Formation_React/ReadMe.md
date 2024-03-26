@@ -1,1 +1,13 @@
-Formation React-Typescript Chez Metafactory
+Les extensions Visual Studios à installer avant tous : 
+- __Error Lens__
+- ES7+ React/Redux/React-Native snippets
+- __ESLint__
+-  javascript console utils
+    - Select a variable, then ctr + shift + L : Create a console
+    - Select the console, then ctr + shift + D : Delete the console.
+- Traling Space
+- VSCode Great Icons
+- Git Len
+- __indent-rainbow__
+- Code Spell Checker
+- __Bookmarks__
