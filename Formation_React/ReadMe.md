@@ -11,3 +11,5 @@ Les extensions Visual Studios à installer avant tous :
 - __indent-rainbow__
 - Code Spell Checker
 - __Bookmarks__
+    - ctr + shift + k : Mettre un bookmark
+    - ctr + shift + L : Passer au prochain bookmark
