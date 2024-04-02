@@ -52,7 +52,7 @@ c'est parce que la référence Proxy n'est pas encore ajouté dans ton projet.
 
 Pour se faire :
 1. Ouvrir l'explorateur de solutions
-2. Clique droite sur __Références__ , qui se trouve en troisième position du projet dans mon cas.
+2. Clique droite sur __Références__ , qui se trouve en troisième position du projet dans mon cas. / Où se trouve dans Ajouter-> Référence
 3. Puis choisir __Ajouter une solution__
 4. Clique __Parcourir__, puis aller dans __D/medissys/client/vc14__
 5. Trouves le nom du .dlln et l'ajouter
