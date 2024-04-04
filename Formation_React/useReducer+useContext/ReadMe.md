@@ -1,1 +1,1 @@
-Un exemple of project using useReducer + useContext.
+A project of formation using useReducer + useContext.
