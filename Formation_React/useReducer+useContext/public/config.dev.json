@@ -1,0 +1,6 @@
+{
+	"serviceRestAddress": "https://localhost:44355/",
+	"logRestAddress": "https://medissys-web.domaine.formatel.fr/common/logs/api/api",
+	"incaRestAddress": "https://medissys-web.domaine.formatel.fr/inca/api",
+	"refRestAddress": "https://medissys-web.domaine.formatel.fr/common/refs/api"
+}

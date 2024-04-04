@@ -1,0 +1,21 @@
+@QuartScreen : 25%;
+@HalfScreen : 50%;
+@fullScreen : 100%;
+
+
+.cDetails {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	width: @QuartScreen;
+	min-width: 300px;
+	height: @fullScreen;
+	background-color: #dde2eb;
+	& > * {
+    margin: 30px;
+		width: @HalfScreen;
+		height: 10px;
+	}
+}
