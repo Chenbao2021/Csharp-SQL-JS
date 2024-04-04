@@ -1,1 +1,1 @@
-A project of formation using useReducer + useContext.
+A training project using useReducer + useContext.
