@@ -3,8 +3,8 @@ Source2 : https://www.frontendmag.com/tutorials/usereducer-vs-redux/
 
 # I - How does useReducer work ?
 React useReducer works similiar to JavaScript's Array.prototype.reducer()
-- It accepts a reducer function and an initialState as parameters.
-- Its reducer function accepts a state and an action as parameters.
+- First, we need to create a __reducer function__, that accepts a state and an action as parameters.
+    In the exemple we use Immer to simplify the code.
     Exemple: 
     ````
     export const gridReducer = produce((draft: IState, action: Action) => {
@@ -16,21 +16,23 @@ React useReducer works similiar to JavaScript's Array.prototype.reducer()
     	return draft;
     });
     ````
-- The useReducer returns an array containing the current state returned by the reducer function and a dispatch for passing values to the action parameter.(The reason why we can't put an HTML element inside, because infinite iterate cause error with reducer mecanism)
+- The useReducer hooks
+    - Take two(or three) arguments, a reducer function and a initial state:
+        -  The reducer function is responsible for updating the state based on the actions dispatched by the application.
+        -  When an action is dispatched, the reducer function receives the current state and the action as arguments and returns the updated state.
+    - __Returns an array__ containing(The reason why not [] but {} when we do destruction):
+        - The current state returned by the reducer function 
+        - A dispatch for passing values to the action parameter.
 
-- The useReducer hooks take two arguments (a reducer function and a initial state):
-    -  The reducer function is responsible for updating the state based on the actions dispatched by the application.
-    -  When an action is dispatched, the reducer function receives the current state and the action as arguments and returns the updated state.
 - We can provide help function in the Provider, and using them by import its in the value attribut, like:
     ````
-    <CartContext.Provider value={{ state, addItem, removeItem, clearCart }}>
-    ````
-    Here , addItem is a function like:
-    ````
+    ...
     const addItem = (item) => {
     dispatch({ type: 'ADD_ITEM', payload: item })
     }
+    <CartContext.Provider value={{ state, addItem, removeItem, clearCart }}>
     ````
+
 # II - The reducer function
 - Accepts state and action as parameters and returns an updated state
     - state : Les données actuelles
