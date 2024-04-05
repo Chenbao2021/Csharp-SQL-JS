@@ -1,54 +1,71 @@
-#### I - Toujours ouvrir un projet avec __.workspace__ .
+Source1 : https://fr.memberstack.com/blog/react-usereducer
+Source2 : https://www.frontendmag.com/tutorials/usereducer-vs-redux/
 
-#### II - Les extensions qui augmente la productivité
-- Traling Spaces: A VS Code extension that allows you to __highlight traling spaces and delete them in a flash!__
-- Javascript Console utils : Easily insert and remove console.log statements.(ctr + shift + L / ctr + shift + D)
-- VSCode Great Icons : Gives you better Icons.
-- ESLint.
+# Introduction
+__useReducer__ est un hook de gestion d'état de React qui est souvent utilisé comme alternative à __useState__ lorsque l'état de votre composant devient complexe et nécessite une logique de mise à jour avancée.
+On utilise useReducer lorsque:
+- L'état de votre composant est complexe: Si votre état contient plusieurs sous-ensembles de données ou sis a logique de mise à jour est compliquée, __useReducer__ peut rendre le code plus clair en définissant des actions spécifiques pour mettre à jour l'état.
+- La mise à jour de l'état dépend de l'état précédent ou d'actions asynchrones: 'useReducer' permet de définir une fonction de réduction qui prend en compte l'état actuel et une action pour détérminer le nouvel état, ce qui est utile lorsque la mise à jour de l'état dépend de son état précédent ou d'autres facteurs complexe.
+    C'est réalisable avec useState, mais ça peut devenir très compliqué facilement. Et avec beaucoup plus de re-render
+- Vous avez besoin de passer des fonctions de mise à jour de l'état comme des callbacks:
+    Parfois, vous pouvez avoir besoin de passer des fonctions de mise à jour de l'état en tant que callbacks pour d'autre fonctions. 'useReducer' facilite cela en vous permettant de passer la fonction de dispatch elle-même, ce qui est plus propre que de passer plusieurs fonctions de mise à jour d'état.
 
-#### III - Typescript
-- __"?:"__  : Désigne qu'une proprieté est optionnel.
-- __enum__ : Si on met que des indexes et pas des valeurs, alors l'index dans la déclaration sera des valeurs pour les indexes.
-
-#### IV - Export default / Export
-- Pour un export default, le nom est peu important, donc on doit faire attention à ne pas faire des faute de frappe.
-- Pour un export, le nom doit être identique.
-- On peut import les deux exports en même temps, par exemple:
+# I - How does useReducer work ?
+React useReducer works similiar to JavaScript's Array.prototype.reducer()
+- First, we need to create a __reducer function__, that accepts a state and an action as parameters.
+    In the exemple we use Immer to simplify the code.
+    Exemple: 
     ````
-    Import default_export, { normal_export1, normal_export2 } from fichier.tsx
+    export const gridReducer = produce((draft: IState, action: Action) => {
+    	switch (action.type) {
+    		case ActionEnum.setSelectedData:
+    			draft.selectedData = action.value
+    			break;
+    	}
+    	return draft;
+    });
+    ````
+- The useReducer hooks
+    - Take two(or three) arguments, a reducer function and a initial state:
+        -  The reducer function is responsible for updating the state based on the actions dispatched by the application.
+        -  When an action is dispatched, the reducer function receives the current state and the action as arguments and returns the updated state.
+    - __Returns an array__ containing(The reason why not [] but {} when we do destruction):
+        - The current state returned by the reducer function 
+        - A dispatch for passing values to the action parameter.
+
+- We can provide help function in the Provider, and using them by import its in the value attribut, like:
+    ````
+    ...
+    const addItem = (item) => {
+    dispatch({ type: 'ADD_ITEM', payload: item })
+    }
+    <CartContext.Provider value={{ state, addItem, removeItem, clearCart }}>
     ````
 
-#### V - DEBUG
-- Tabulaire Source : Chrome -> Clic droit -> Element : Ici on peut modifier le style de nos components directement pour observer les changements.   
-    - En haut à gauche, on a l'icon pour "Select an element in the page to inspect it - ctr + shift + C", ça te permet d'afficher tous les styles concernant un élement.
-- Tabulaire Network : Chrome -> Clic droit -> source -> ouvrir ton ficheir .js -> a gauche des codes: On peut debuguer nos codes ici.
+# II - The reducer function
+- Accepts state and action as parameters and returns an updated state
+    - state : Les données actuelles
+    - action : Les données reçoivent depuis dispatch( type action, value to update)
+    Exemple : 
+        ````
+        const reducer = (state, action) => {
+          // logic to update state with value from action
+          return updatedState
+        }
+        ````
+    action can be a single value or an object with a label(type) and some data to update the state(payload).
 
-#### VI - Snippet 
-à revoir
-#### VII - useCallback / useMemo
-- On utilise toujours useCallback pour créer des fonctions, cela permet fasciliter le dévéloppement pour des gros projet.
+# Exemples
+Check the source
 
-- Une fonction déclaré avec useCallback nécessite définir ses dépéndances, sinon il ne va pas actualiser les variables de type simple ( number par exemple), exemple:
-    ````
-    const clickFive = useCallback(() => {
-        setCount(count + 5);
-    }, [count]);
-    ````
-- Si on ne met pas count dans sa dépénce, il ne va pas actualiser la valeur de count après chaque render, et du coup la valeur de count reste fixe (valeur d'origine + 5).
-- On utilise useCallback pour éviter le max des render inutiles possibles.
-- useCallback retourne la référence de la fonction ainsi crée . Mais useMemo ne le retourne pas la référence.
-- Lorsqu'on utilise useMemo, on doit préciser explicitement un return , pour retourner quelques choses. useMemo permet de stocker un peu ce qu'on veut .
-    par exemple : 
-    ````
-     const visibleTodos = useMemo(
-        () => filterTodos(todos, tab),
-        [todos, tab]
-      );
-    ````
-    Attention : une fonction flèche à une ligne possède un return implicite.
+# III - When not to use the useReducer Hook
+- Managing simple state
+It would be much quicker to set up useState for cases where we need to handle a very simple state.
 
-#### VIII - Suggestion : ctr + espace
-Ce raccourci petmet t'afficher les suggestion des codes.
+- Central state management
+In a large application with many components depending on the same state, it would be better to use a third party state management like Redux.
 
-#### IX - Multi-curseur : ctr + D / shit + clic droit
-Augmente tes productivités.
+
+
+
+    
