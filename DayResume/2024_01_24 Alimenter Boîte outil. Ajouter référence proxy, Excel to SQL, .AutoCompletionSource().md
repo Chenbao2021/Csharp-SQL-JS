@@ -55,8 +55,8 @@ Pour se faire :
 2. Clique droite sur __Références__ , qui se trouve en troisième position du projet dans mon cas. / Où se trouve dans Ajouter-> Référence
 3. Puis choisir __Ajouter une solution__
 4. Clique __Parcourir__, puis aller dans __D/medissys/client/vc14__
-5. Trouves le nom du .dlln et l'ajouter
-
+5. Trouves le nom du .dll et l'ajouter
+6. Les outils MF se trouve dans le .dll "MFCtrl.dll"
 ***
 #### 3 - MFEditAutoCompletion.SetAutoCompletionSource
 ***
