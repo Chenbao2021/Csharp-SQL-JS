@@ -1,0 +1,1 @@
+Some points about Git
