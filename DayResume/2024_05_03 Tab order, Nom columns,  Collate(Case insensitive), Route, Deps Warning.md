@@ -46,8 +46,9 @@ Pour mettre un ordre de tabulation, voici les étapes:
 2. Clique dans l'ordre pour mettre en place l'ordre de tabulation que tu veux.
 3. Si tu veux annuler la mise en place, clique "Echap"
 
-#### II - Noms des columns
-On doit mettre la conversion qu'on veut dans cette table: iom_preset_grid_columns_properties.
+#### II - Noms des columns 
+On doit mettre la conversion qu'on veut dans cette table: **iom_preset_grid_columns_properties**.
+Il faut que le propriété __IncludeGlobalSettings__ soit mit à true (__C'est aussi nécéssaire quand on veut mettre une critère dans un preset, qui ne prend en compte que les components avec IncludeGlobalSettings = true__)
 Quelques valeurs importants:
 |Nom column| Description|
 |--|--|
