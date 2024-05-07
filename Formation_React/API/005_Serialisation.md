@@ -3,7 +3,7 @@ __La sérialisation__ est __le processus de conversion__ d'un objet ou d'une str
 Le format résultant doit être tel que l'objet peut être __recréé plus tard__ (désérialisation) dans l'état original.
 
 ### Pourquoi la sérialisation est-elle importante ?
-* __Interopérabilité __: Elle permet aux applications écrites dans différents langages de programmation de s'échanger des données de manière standardisée. Par exemple, JSON est lisible par Javascript, ainsi par C#, Java et Python.
+* __Interopérabilité__: Elle permet aux applications écrites dans __différents langages de programmation__ de s'échanger des données de manière standardisée. Par exemple, JSON est lisible par Javascript, ainsi par C#, Java et Python.
 * __Persistance__ :  Les objets en mémoire peuvent être sauvegardés de manière persistante pour une utilisation ultérieure. 
 * __Communication réseau__ : Dans les architectures client-serveur ou les systèmes distribués, la sérialisation permet de formater les messages pour la transmission à travers le réseau, facilitant ainsi l'échange de données complexes entre systèmes distants.
 
