@@ -106,6 +106,18 @@ WITH (
 );
 ````
 
+Exemple avec plusieurs OPENJSON():
+````
+select  lst.id_propulsion_mode, pmq.id_bunkering_quality_grp, pmq.display_order
+into #tmp_nsh_propulsion_mode_quality
+from OPENJSON(@json_params) 
+    WITH (list_nshm_propulsion_mode NVARCHAR(MAX) '$.data' AS JSON) as pm
+CROSS APPLY OPENJSON (list_nshm_propulsion_mode)
+    WITH (id_propulsion_mode int '$.id', propulsionModeQuality  nvarchar(max) AS JSON) as lst
+OUTER APPLY OPENJSON(propulsionModeQuality)
+    WITH (id_bunkering_quality_grp int '$.id', display_order int '$.displayOrder' ) as pmq
+````
+
 __Les erreurs fréquentes__
 * Chemin JSON incorrect: Utilisation de chemin JSON incorrects dans la clause WITH entraînant des résultats inattendus.
 * Types de données incompatibles: Conversion des types de données incorrects, par exemple, tenter de convertir un texte en 'INT'.
