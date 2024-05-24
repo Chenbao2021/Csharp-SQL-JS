@@ -52,7 +52,7 @@ Il faut que le propriété __IncludeGlobalSettings__ soit mit à true (__C'est a
 Quelques valeurs importants:
 |Nom column| Description|
 |--|--|
-|id_grid|Le nom de la grid dans property|
+|id_grid|Le nom de la grille, le nom que tu vois dans la liste des propriétés à gauche|
 |fct_name|La fonction d'initialisation d'écran|
 |Column_name|Le nom de la colonne original|
 |Column_fullname|Le nom que tu veux afficher dans l'écran|
