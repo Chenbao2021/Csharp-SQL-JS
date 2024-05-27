@@ -1,13 +1,21 @@
+---
 # Introduction
+Plutôt que de dire à React __"Quoi faire"__ (Ex: Ajouter un nouveau objet dans la liste A avec setA) en défiissant état, on dit __"Ce que l'utilisateur vient de faire"__(Ex: Une action d'ajout est déclenché) en émettant des __"actions"__ à partir des gestion dévénements.
+=> La logique de mise à jour de l'état se situe ailleurs.
+* Rend les gestionnaires dévénements plus simple à comprendre.
+* Centraliser les codes, plus facile à maintenir.
 
-Les composants ayant de nombreuses mises à jour d'état réparties dans divers gestionnaires d'événements peuvent s'avérer complexes à gérer, notamment lorsque les appels à `setState` se situent dans plusieurs fonctions différentes au sein du même composant. Dans de telles situations, il est possible de consolider toute la logique de mise à jour d'état dans une fonction unique (idéalement située à l'extérieur du composant), connue sous le nom de réducteur.
+__Reducer__
+Un __reducer__ est une __fonction__ qui consolide toute la logique de mise à jour d'état dans 1 seule fonction.
 
-# Les composants essentiels d'un réducteur
+---
+# L'utilisation de useReducer
 
-1. **Fonction de réduction** : définit comment l'état est mis à jour en réponse aux actions.
-2. **Utilisation de `useReducer`** : s'effectue avec la fonction de réduction et l'état initial.
-3. **(Optionnel) Une énumération des actions** : permet de définir clairement les actions possibles.
-4. **(TypeScript) Les types des différentes actions** : pour une meilleure gestion des types dans les projets TypeScript.
+1. **Reducer (Fonction de réduction)** : Définit comment l'état est mis à jour en réponse aux actions. Il prend généralement deux paramètre (state, action).
+    * state : Conserve toutes les valeurs qui sont actuellement stockés.
+    * action : Les données qui sont transféré par dispatch, pour mettre à jour state.
+2. **Utilisation de `useReducer`** : On appele la fonction useReducer avec reducer et l'état initial.
+
 5. **Exemple** :
     ```javascript
     function reducer(state, action) {
@@ -26,11 +34,11 @@ Les composants ayant de nombreuses mises à jour d'état réparties dans divers 
         message: ''
       });
       // Logique du formulaire
+      dispatch({ type: ..., field: ..., value: ... })
     }
     ```
 
 # Comparaison de `useState` et `useReducer`
-
 - **Taille du code** :
     - `useState` : Moins de code requis initialement.
     - `useReducer` : Nécessite d'écrire à la fois la fonction de réduction et de dispatcher les actions, mais peut aider à réduire le code lorsque plusieurs gestionnaires d'événements modifient l'état de manière similaire.
