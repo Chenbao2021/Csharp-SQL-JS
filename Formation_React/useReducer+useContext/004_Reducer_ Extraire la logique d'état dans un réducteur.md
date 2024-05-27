@@ -1,4 +1,5 @@
 ---
+
 # Introduction
 Plutôt que de dire à React __"Quoi faire"__ (Ex: Ajouter un nouveau objet dans la liste A avec setA) en défiissant état, on dit __"Ce que l'utilisateur vient de faire"__(Ex: Une action d'ajout est déclenché) en émettant des __"actions"__ à partir des gestion dévénements.
 => La logique de mise à jour de l'état se situe ailleurs.
@@ -7,7 +8,6 @@ Plutôt que de dire à React __"Quoi faire"__ (Ex: Ajouter un nouveau objet dans
 
 __Reducer__
 Un __reducer__ est une __fonction__ qui consolide toute la logique de mise à jour d'état dans 1 seule fonction.
-
 ---
 # L'utilisation de useReducer
 
@@ -34,7 +34,6 @@ Un __reducer__ est une __fonction__ qui consolide toute la logique de mise à jo
         message: ''
       });
       // Logique du formulaire
-      dispatch({ type: ..., field: ..., value: ... })
     }
     ```
 
