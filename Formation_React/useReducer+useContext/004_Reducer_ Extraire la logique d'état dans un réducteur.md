@@ -32,6 +32,7 @@ Un __reducer__ est une __fonction__ qui consolide toute la logique de mise à jo
         message: ''
       });
       // Logique du formulaire
+      dispatch({ type: ..., field: ..., value: ... })
     }
     ```
 
