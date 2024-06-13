@@ -34,8 +34,8 @@ Ne jamais modifier le profil administrative, le profil administrative a le droit
 
 Chaque fois quand un plan de test te demande de modifier le habillitation:
 0. Lancer Medissys, puis :
-1. module -> Database Administration -> Quatrième Icon -> écran "Profil Management" s'ouvre
+1. module -> Database Administration -> Quatrième Icon(Profil management) -> écran "Profil Management" s'ouvre
 2. Dans Profil, saisit: "ADMINISTRATION", puis "Duplicate" et mettre le nom "ADMIN_TonTricode".
 3. Relancer Medissys et revients dans l'écran Database Administration
-4. Troisième point -> Saisir dans login code(Le mien : "chenbao"),  double clique le résultat -> Amend -> Profil : change "Administration" à "ADMIN_CYU", puis cliquer "OK" .
+4. Reviens en point 1 -> Troisième îcon(User management) -> Saisir dans login code(Le mien : "chenbao"),  double clique le résultat -> Amend -> Profil : change "Administration" à "ADMIN_CYU", puis cliquer "OK" .
 5. C'est bon, on peut commencer à tester.
