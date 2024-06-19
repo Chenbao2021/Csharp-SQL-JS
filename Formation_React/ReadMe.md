@@ -13,4 +13,4 @@ Les extensions Visual Studios à installer avant tous :
 - __Bookmarks__
     - ctr + shift + k : Mettre un bookmark
     - ctr + shift + L : Passer au prochain bookmark
-- __Rainbow Brackets__ : Rend les codes plus lisible et facile à comprendre
+- __Rainbow Brackets__ : Make code more readable
