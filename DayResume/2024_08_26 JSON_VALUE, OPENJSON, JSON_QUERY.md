@@ -1,5 +1,12 @@
 # SQL
 #### I - JSON_VALUE, OPENJSON et JSON_QUERY
+OPENJSON : Transforme un JSON en une table SQL.
+* Si c'est un objet : Une table avec des colonnes ``key``, ``value``, ``type``.
+* Si c'est une table, alors on utilise ``WITH`` pour définir la table. 
+
+JSON_VALUE: Récupérer une valeur simple
+JSON_QUERY: Récupère un objet ou un tableau JSON sous forme de chaîne de caractères.
+
 * JSON_VALUE
     * __Définition__: Extraire une valeur scalaire (Nombre, chaîne) à partir d'une expression JSON.
     * Exemple:
@@ -132,3 +139,7 @@ L'utilisation de la clause WITH avec OPENJSON dépend du niveau de contrôle que
         ````
     3. Conversion de types
         WITH permet de convertir les types de données, par exemple, convertir une valeur JSON en 'INT' ou 'DATETIME'.
+
+#### IV - Cas où on n'a pas besoin d'utiliser openJson
+1. Extraction de valeurs scalaires simples
+2. 
