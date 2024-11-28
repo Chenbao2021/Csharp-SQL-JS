@@ -31,7 +31,8 @@ Pourquoi combiner ``useRef`` et ``useState`` ?
 3. Combiner les deux
     * ``useRef`` pour conserver l'état le plus récent en temps réel.
     * ``useState`` pour déclencher un re-render quand c'est nécessaire.
-4. Exemple
+4. Cette combinaison a une influence négligeable sur la performance. 
+5. Exemple
     ````JS
     const RefWithStateExample = () => {
       const [stateValue, setStateValue] = useState(0); // Pour déclencher un re-render
