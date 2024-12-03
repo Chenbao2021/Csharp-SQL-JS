@@ -15,7 +15,7 @@ Lors de la première visite en ligne:
 * En utilisant ces fichiers, le navigateur pourrai afficher la page en deconnecté.
 
 ##### II. Que signifie "télécharger" une PWA?
-* Une PWA n'a pas besoind'être explicitement installée pour fonctionner en mode offline. Elle peut fonctionner hors ligne après une première visite, même sans être ajoutée à l'écran d'accueil.
+* Une PWA n'a pas besoin d'être explicitement installée pour fonctionner en mode offline. Elle peut fonctionner hors ligne après une première visite, même sans être ajoutée à l'écran d'accueil.
 * Mais l'installation améliore l'expérience utilisateur.
 
 ##### III. Ressources nécessaires pour le mode offline
