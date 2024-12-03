@@ -6,8 +6,8 @@ Mais avec ``vite-plugin-pwa``, une grande partie de cette gestion est automatis�
 # I - Qu'est ce qu'un Service Worker
 Un __Service Worker__ est un script JavaScript qui agit comme un __intermédiaire programmable entre votre application web et le réseau__. 
 Il est exécuté en arrière-plan par le navigateur, séparément de l'interface utilisateur, et permet d'améliorer l'expérience utilisateur en fournissant des fonctionnalités comme:
-1. __Mise en cache des ressources__ (Pour rendre les applications accessibles hors ligne).
-2. __Amélioration des performances__ (Chargement des ressources depuis le cache local plutôt que le réseau).
+1. __Mise en cache des ressources__ (Pour rendre les applications accessibles hors ligne, manuellement ou dynamiquement).
+2. __Intercepter les requêtes réseau__ (Via l'événement ``fetch``).
 3. __Gestion avancée des requêtes réseau__ (Ex: Stratégie "Cache First" ou "Network First").
 4. __Notifications Push__ (Envoyées par le serveur même lorsque l'application est fermée).
 5. __Synchronisation en arrière-plan__ (Mise à jour des données lorsque le réseau est indisponible).
