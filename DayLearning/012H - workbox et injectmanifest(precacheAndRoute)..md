@@ -1,4 +1,4 @@
-# workbox et injectManifest
+# workbox et injectmanifest
 On ne peut pas utiliser les deux en même temps, c'est contradictoire. 
 
 ``ìnjectManifest`` et ``workbox`` des configurations du plugun ``vite-plugin-pwa``.
@@ -33,31 +33,52 @@ Exemples:
 		],
 	},
     ````
-* ``injectManifest``:
-    ````js
-	strategies: 'injectManifest',
-	srcDir: 'src',
-	filename: 'sw.js',
-	injectManifest: {
-		// swSrc: './src/sw.js',
-		swDest: 'dist/sw.js',
-		maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // Limite de 5 MiB,
-		globPatterns: ['**/*.{js,css,html,svg,png,ico,ttf}'],
-	},
-    ````
-    * Toutes les proprietés sont importants!
 ***
-# precacheAndRoute
+# ``injectManifest``:
+[src](https://vite-pwa-org.netlify.app/guide/inject-manifest.html)
+#### ``injectManifest``: What for
+With this service worker ``strategy``, you can build your own service worker.
+
+#### Location : "/public/sw.js"
+By default, the plugin will assume the ``service worker`` source code is located at the ``Vite's public`` folder with the name ``sw.js``: ``/public/sw.js``.
+If you want to change the location or the service worker name, you will need to change the following plugin options:
+* ``srcDir``: __must__ be relative to the project root folder
+* ``filename``: Including the fixe extension and must be relative to the ``srcDir`` folder.
+
+#### Plugin Configuration
+You __must__ configure ``strategies:'injectManifest'`` in ``vide-plugin-pwa`` plugin options in your ``vite.config.ts`` file:
+``VitePWA({ strategies: 'injectManifest' })``
+
+#### Service Worker Code
+1. Your custom service worker shoudl have at least this code(``workbox-precaching`` as ``dev dependency``).
+    ````js
+    import {precacheAndRoute} from 'workbox-precaching'
+    precacheAndRoute(self.__WB_MANIFEST)
+    ````
+    If you are not using ``precaching(self.__WB_MANIFEST), you need to disable ``injectionPoint`` to avoid compilation errors:
+    ````js
+    injectManifest: {
+        injectionPoint: undefined
+    }
+    ````
+2. You __must__ include in your service worker code at least this code(``workbox-core`` as ``dev dependency``)
+    ````js
+    import {clientsClaim} from 'workbox-core'
+    self.skipWaiting();
+    clientsClaim();
+    ````
+    * ``self.skipWaiting()``: Assure que le nouveau Service Worker s'active sans délai.
+    * ``clientsClaim()``: Veille à ce que les pages actuellement ouvertes utilisent aussitôt ce nouveau Service Worker.
+
+#### Cleanup Outdated Caches
+When the user installs the new version of the application, we will have on the service worker cache all new assets and also the old ones. To delete old assets automatically, you will need to add the following code to your custom service worker:
 ````js
-import { precacheAndRoute } from 'workbox-precaching';
-precacheAndRoute(self.__WB_MANIFEST);
-self.addEventListener('fetch', (event) => {
-    ...
-})
+import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
+cleanupOutdatedCaches()
+
+precacheAndRoute(self.__WB_MANIFEST)
 ````
 
-##### À quoi sert ``precacheAndRoute``?
-* __Pré-caching des ressources__: Il va prendre la liste des ressources générées lors de la build et les ajouter au cache du navigateur lors de l'installation du service worker.
-* __Gestion des requêtes__ : Configure automatiquement un gestionnaire d'événements ``fetch`` qui intercepte les requêtes réseau pour les ressources pré-cachées et les sert depuis le cache.
 
-Donc, avec precacheAndRoute, on a plus besoin d'écrire les codes pour mettre les fichiers en cache manuellement!
+
+
