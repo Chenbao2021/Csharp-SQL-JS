@@ -40,7 +40,7 @@ element.addEventListener('myCustomEvent', (event) => {
    console.log("Evenement personnalisé détecté: ", event.detail); 
 });
 ```` 
-Puis, on peut déclenchement de l'événement pour __element__ selectionné:
+Puis, on peut déclencher l'événement pour __element__ selectionné:
 ````js
 element.dispatchEvent(myEvent)
 ````
