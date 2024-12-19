@@ -1,12 +1,16 @@
-# workbox et injectmanifest
-On ne peut pas utiliser les deux en même temps, c'est contradictoire. 
+# generateSW et injectmanifest
+On a deux options pour manipuler notre Service Worker:
+* ``generateSW``
+* ``injectManifest``
 
-``ìnjectManifest`` et ``workbox`` des configurations du plugun ``vite-plugin-pwa``.
-* ``workbox``: L'option qui utilise la méthode ``generateSW`` de ``workbox-build`` pour créer automatiquement le service worker.
+Et dans la configuration de vite-plugin-pwa, on a aussi ``workbox`` et ``injectManifest`` qui sont deux proprietés pour définir ``generateSW`` et ``injectManifest`` respectivement.
+
+* ``generateSW``: L'option qui créer automatiquement le service worker.
     * Service worker est automatiquement geré par nos configurations.
     * Inclut des stratégies par défaut pour certaines fonctionnalités comme ``runtimeCaching``.
     * Moins de contrôle direct, beaucoup des configurations automatiques.
 * ``injectManifest``: Avec cette option, on peut personnaliser notre propre fichier sw.js, une partie voire la totalité, selon nos besoins.
+    Même si t'as choisit l'option ``injectManifest``, cela ne limite pas les usages des outils Workbox, comme ``precacheAndRoute``, ``createHandlerBoundToURL``, etc.
 
 Exemples:
 * ``workbox``:
@@ -50,7 +54,7 @@ You __must__ configure ``strategies:'injectManifest'`` in ``vide-plugin-pwa`` pl
 ``VitePWA({ strategies: 'injectManifest' })``
 
 #### Service Worker Code
-1. Your custom service worker shoudl have at least this code(``workbox-precaching`` as ``dev dependency``).
+1. Your custom service worker shoudl have at least this code(``workbox-precaching`` as ``dev dependency``). (This is for save files to cache storage).
     ````js
     import {precacheAndRoute} from 'workbox-precaching'
     precacheAndRoute(self.__WB_MANIFEST)
@@ -61,7 +65,7 @@ You __must__ configure ``strategies:'injectManifest'`` in ``vide-plugin-pwa`` pl
         injectionPoint: undefined
     }
     ````
-2. You __must__ include in your service worker code at least this code(``workbox-core`` as ``dev dependency``)
+2. You __must__ include in your service worker code at least this code(``workbox-core`` as ``dev dependency``) (This is ask a new Service Worker take control immediatelly)
     ````js
     import {clientsClaim} from 'workbox-core'
     self.skipWaiting();
