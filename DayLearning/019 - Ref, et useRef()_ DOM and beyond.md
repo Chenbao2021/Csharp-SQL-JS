@@ -1,4 +1,4 @@
-### I - Introduction
+## I - Introduction
 __Ref__ is just a ``{ current: initialValue }`` object. It's nothing special. Both ``useRef(initialValue)`` and ``createRef()`` give you that.
 You can create your own ``useRef`` by this simple code:
 ````js
@@ -11,7 +11,7 @@ function useRef(initialValue) {
 These return values would be persisted and you can also mutate them according to your need(_Without causing a re-rendere of a component_).
 ***
 
-### II - Accessing the DOM with useRef
+## II - Accessing the DOM with useRef
 When we write jsx, it gets converted into React.createElement:
 * ``<div>Hello World</div>`` which we write as jsx gets converted into ``React.createElement("div", null, "Hello World")
 So you __dont' have any direct access to the DOM nodes__ from your returned jsx. 
@@ -39,7 +39,7 @@ In this example:
 
 Some other cases would be like getting a value from an input, changing focus, or selecting text.
 ***
-### III - A stopwatch component with stop and resume functionality.
+## III - A stopwatch component with stop and resume functionality.
 __A simple StopWatch component which updates time every 1 second__
 ````js
 ...
@@ -92,7 +92,7 @@ useEffect(() => {
 ````
 
 ***
-### IV - Qui a le prop ``ref``?
+## IV - Qui a le prop ``ref``?
 En React, toutes les balises DOM(par exemple ``div``, ``button``, etc.) ou __les composants React implémentant__ ``forwardRef`` peuvent recevoir une prop ``ref``.
 
 C'est à dire:
@@ -105,7 +105,17 @@ C'est à dire:
       return <button ref={ref} {...props} />
     })
     ````
+***
+## V - Les modification des propriétés CSS via ``useRef`` est immédiate.
+En React, lorsque vous utilisez ``useRef`` pour référencer un objet DOM(par exemple, un élément HTML), la modification des propriétés CSS via ce ``ref`` __affiche directement les changements__ sur la page. Il __n'est pas nécessaire d'avoir un re-render__ pour que les modifications soient visibles.
 
+#### Pourquoi?
+* Les références pointent directement vers l'élément DOM sous-jacent. C'est à dire on interagisse directement avec l'objet DOM, et les changements qu'on y apporte sont immédiatement reflétés dans le navigateur.
+* React n'a pas besoin de détecter ces changements ou de déclencher un re-render parce qu'ils se produisent en dehors de son cycle de rendu.
+
+#### Précautions
+* React ne sera pas informé de ces changements, si React déclenche un re-render, il pourrait potentiellement écraser vos modifications si ces styles sont définis via le ``style`` inline ou des classes.
+* Il est préférable d'utiliser les props React(``className`` ou ``style``) pour rester dans le paradigme React.
 
 
 
