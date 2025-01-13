@@ -31,12 +31,12 @@ Une promesse a trois états:
 
 Promesse est un objet/une classe Javascript, prend une paramètre ``executor``(fonction) pour s'initialiser.
 
-Quand on fournit une fonction ``executor``, qui reçoit ``resolve`` et ``reject``. Ces deux fonctions contrôlent le changement d'état de la promesse:
+On doit fournit une fonction ``executor`` comme callback, qui doit recevoir ``resolve`` et ``reject``. Ces deux fonctions contrôlent le changement d'état de la promesse:
 * ``resolve(value)`` -> Passe l'état à ``fulfilled`` et transmet ``value`` à ``.then(value)``.
 * ``reject(reason)`` -> Passe l'état à ``reject`` et transmet ``reason`` à ``.catch(value)``.
 
 Donc, pour déclencher la méthode ``.then()``, il est obligatoire d'appeler la fonction ``resolve`` à l'intérieur de l'exécuteur de la promesse. 
-* Par contre, ``.then`` s'utilise aussi avec fonction async/await, tous ceux qui sont retournés sont considérés comme la valeur résolue de la promesse.
+* Par contre, ``.then`` s'utilise aussi avec fonction async/await, dans ce cas, tous ceux qui sont retournés par la fonction async sont considérés comme la valeur résolue de la promesse.
 
 ##### II - Le chainage de promesses.
 Avec promesse, on peut appeler une deuxième ou plus des ``.then()``. Ceux qui évite d'avoir d'imbrication des appels de fonction asynchrones comme dans les fonctions callbacks.
@@ -74,6 +74,7 @@ fetchPromise
     ````
 * ``Promise.any([...])
 ***
+
 # Async/Await
 
 Le mot clé ``async`` fournit une façon plus simple de travailler avec du code asynchrone utilisant les promesses.
@@ -98,6 +99,25 @@ async function main() {
     }
 }
 ````
+
+Exemple d'une fonction async/await:
+````js
+useEffect(() => {
+  const fetchData = async () => {
+    console.log("1. Fetching data...");
+    const response = await fetch("/api/data");
+    const result = await response.json();
+    console.log("2. Data fetched:", result);
+    setData(result);
+  };
+
+  console.log("3. Before calling fetchData");
+  fetchData();
+  console.log("4. After calling fetchData");
+}, []);
+````
+* Le console va afficher 3. et 4. avant 1 et 2(async a une priorité moins élévé).
+* Le thread principal ne sera pas bloqué comme fetchData est une fonction async et exécuté sans ``await``. 
 ***
 # Introducing Workers
 __Workers__ : Enable you to run some task in a separate ``thread`` of execution.
@@ -114,7 +134,8 @@ There are three different sorts of workers:
 
 #### Keep the worker code in a separate script from the main code
 main.js (Main thread)
-* Create a new worker, giving it the code in "generate.js"     ````js
+* Create a new worker, giving it the code in "generate.js"     `
+    ```js
     const worker = new Worker("./generate.js");
     ````
 
