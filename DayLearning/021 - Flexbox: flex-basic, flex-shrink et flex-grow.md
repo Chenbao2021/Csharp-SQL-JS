@@ -45,3 +45,17 @@ Les différents cas:
 * cas1: ``flex-grow`` uniquement: ``flex: 1 0 auto`` (Peut grandir mais ne rétrécit pas.)
 * cas2: ``flex-shrink`` uniquement: ``flex: 0 1 auto`` (Ne grandit pas mais peut rétrécir.)
 * cas3: ``flex-basis`` uniquement ``flex: 0 0 150px`` (Taille fixe de 150px)
+* Taille final calculée: ``taille_final = flex-basis + espace_disponible * ( flex-grow / somme_des_flex-grow ) - espace_manquant * ( flex-shrink / somme_des_flex-shrink )``
+    * Remarque: lorsqu'il y a espace_disponible, ça veut forcément dire que espace_manquant est null, et inversement.
+
+### e. Exemple détaillé avec flex-shrink.
+Soit une largeur total du conteneur fixée à 700px, mais avec des largeurs initiales de __A = 300px__, __B = 500px__, et __C = 500px__, seulement le ``flex-shrink`` de A est égale à 1. 
+
+Analysons comment ``flex-shrink`` agit:
+* Comme B et C ne se réduisent pas, __tout l'espace manquant(600px)__ sera absorbé par A.
+    La largeur initial de A devient: largeur_A = largeur_A - espace_manquant * ( 1 / (1 + 0 + 0) = -300px.
+    Or une largeur négative n'est pas possible. A atteindra __0px__, sa limite minimale.
+* B et C reste inchangé, et l'espace total occupé par les éléments reste supérieur à la largeur du conteneur.
+    Par conséquent, les éléments débordent du conteneur(overflox).
+
+
