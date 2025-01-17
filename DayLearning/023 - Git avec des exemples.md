@@ -75,19 +75,19 @@ En résumé, __Rétablir__ peut signifier __Refaire__(l'inverse d'Annuler) dans 
 # III - Réinitialiser 
 La commande ``git reset`` permet de __déplacer le HEAD__(et la référence de la branche courante) vers un autre commit, en choisissant ce qu'on fait des modifications dans l'espace de travail(working directory) et dans l'index(staging area).
 ## A. git reset --soft <commit>
-    * Déplace la branche sur ``<commit>``.
-    * __Conserve toutes les modifications dans l'index(staged)``__.
-    * Concrètement, c'est comme si vous annuliez les commits jusqu'à ```<commit>`` tout en gardant les changements prêts à être re-commités(C'est à dire on peut immédiatement ``git commit`` à nouveau pour recréer un commit avec ces mêmes changements).
+ * Déplace la branche sur ``<commit>``.
+ * __Conserve toutes les modifications dans l'index(staged)``__.
+ * Concrètement, c'est comme si vous annuliez les commits jusqu'à ```<commit>`` tout en gardant les changements prêts à être re-commités(C'est à dire on peut immédiatement ``git commit`` à nouveau pour recréer un commit avec ces mêmes changements).
 ## B. git reset --mixed <commit> (mode par défaut)
-    * Votre branche(HEAD) recule jusqu'au ``<commit>`` cible.
-    * __Les modifications des commits "annulés" quittent l'index__(Elles deviennent __"un-staged"__(Dans work space))
-    * Les modifications en cours ne seront pas supprimé. 
-    * Dans ce cas, on doit refaire un  ``git add`` avant de valider (``git commit``).
+ * Votre branche(HEAD) recule jusqu'au ``<commit>`` cible.
+ * __Les modifications des commits "annulés" quittent l'index__(Elles deviennent __"un-staged"__(Dans work space))
+ * Les modifications en cours ne seront pas supprimé. 
+ * Dans ce cas, on doit refaire un  ``git add`` avant de valider (``git commit``).
 ## C. git reset --hard <commit>
-    * Déplace la branche sur ``<commit>``
-    * __Écrase__ toutes les modifications, même dans votre répertoire de travail.
-    * Vous vous retrouvez exactement dans l'état du commit ``<commit>``.
-    * C'est la forme la plus <destructive>; Vous perdez vos modifications locales non commitées.
+ * Déplace la branche sur ``<commit>``
+ * __Écrase__ toutes les modifications, même dans votre répertoire de travail.
+ * Vous vous retrouvez exactement dans l'état du commit ``<commit>``.
+ * C'est la forme la plus <destructive>; Vous perdez vos modifications locales non commitées.
 
 ## D. Conséquences d'un reset:
 * L'historique local est __réécrit__: Les commits en trop deviennent inaccessiibles(orphanes), à moins d'avoir une autre référence qui les pointe.
