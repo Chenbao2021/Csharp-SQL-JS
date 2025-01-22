@@ -1,32 +1,53 @@
 ## I. Nature des Promesses dans JavaScript:
 * Une __Promesse__ est un objet représentant une opération asynchrone.
-* Lorsqu'une promesse est créée, elle s'exécute immédiatement et retourne un objet ``Promise``. Ce n'est que lorsque la promesse est __résolue__ ou __rejetée__ que le code inscrit dans ``.then()`` ou ``.catch()`` est exécuté.
-* Si vous imbriquez des appels asynchrones dans des ``.then()`` sans attendre leur résolution, le __contexte d'appel principal__ continue son exécution sans se soucier de ce qui se passe dans les sous-promesses.
+* Lorsqu'une promesse est créée, elle s'exécute immédiatement et retourne un objet ``Promise``. Donc le fait d'ajouter un ``await`` dans async n'empêche pas le retour de l'objet ``Promise``. 
+* Si vous imbriquez des appels asynchrones dans des ``.then()`` sans attendre leur résolution, le __contexte d'appel principal__ continue son exécution sans se soucier de ce qui se passe dans les sous-promesses.  
+    Par exemple:
+    * ````js
+        onst promises = [1, 2, 3].map((id) => {
+            return asyncOperation(id).then((result) => {
+                console.log(`Première étape pour ${result}`);
+                // Sous-promesse non retournée
+                asyncOperation(result + 10).then((res) => {
+                    console.log(`Sous-promesse pour ${res}`);
+                });
+            });
+        });
+        ````
+        Ici, la sous-promesse ``asyncOperation()`` n'est pas retourné! donc elle ne sera pas incluse dans la chaîne de promesses principale. le __contexte d'appel principal__ sera terminé une fois que les codes terminé d'exécuter. 
+        * Solution: Ajouter un ``return`` devant ``asyncOperation(result + 10)``
+* Lors de l'exécution d'un programme, lorsqu'une promesse est rencontrée:
+    1. Le programme(Déclenché par thread principal, mais selon les cas, les traitements peuvent être délégué) commence imméiatement l'opération asynchrone associée à la promesse.
+    2. Le programme principal __ne s'arrête pas__ et continue d'exécuter les instructions suivantes.
+    3. Une fois que la promesse est résolue ou rejetée, le gestionnaire associé(``.then``, ``.catch``) ou la partie ``await`` est __mis dans la file d'attent des microtâches__.
+    4. Ce gestionnaire ou cette partie ``await`` est exécuté uniquement après que toutes les tâches synchrones en cours soient terminées.
 
-## II. Pourquoi ``refreshAllReport`` ne bloquait pas?
-Quand on utilise plusieurs appels avec ``.then()``, on ne doit pas oublier que ces ``.then()`` sont eux aussi des promesses, et qu'on doit assurer qu'ils sont correctement reliées au cycle principale.
-* Exemple des ``.then()`` qui ne sont pas reliées au cycle principale.
-    ````js
-    const allPromise = keysStr.map(async (id) => {
-        if(id !== idReport) {
-            reportDataService.getHeader(+(id ?? 0), ...)
-                .then(() => {
-                    // Sous-promesse non attendue
-                    ...
-                    reportDataService.getChapterList(...)
-                        .then((result) => {
-                            // Encore une sous-promesse non propagée!
-                        });
-                }
-        }
-    }
-    await Promise.all(allPromise);// Attente partielle, pas de propagation.
-    ````
-    Dans ce cas:
-    * ``await Promise.all(allPromise)`` ne garantit pas que les __sous-promesses imbriquées__ sont terminées, car elles sont définies dans des ``.then()`` qui ne sont pas explicitement chaînés avec ``await``.
-    * Chaque ``then`` retourne une nouvelle promesse, donc rassureer que tous les then retourne une promesse.
+    Par exemple:
+    * ````js
+        const main = async () => {
+            const promise = new Promise((resolve) => {
+                resolve("Résolu");
+            });
+            promise.then((result) => {
+                console.log("Première étape :", result);
+        
+                // Sous-promesse non retournée
+                new Promise((resolve) => {
+                    setTimeout(() => {
+                        console.log("Sous-promesse terminée");
+                        resolve();
+                    }, 1000);
+                });
+            });
+    
+            console.log("Programme principal terminé");
+        };
+        main();
+        ````
+        * Ici, le premier qui va afficher sera "Programme principal terminé", le programme principal considère que tout est terminé alors que la sous-promesse est encore en cours!
+        * Solutions possibles: ``return`` + Enchaîner des ``.then``, utiliser ``return``+``await``, ``Promise.all``, etc.
 
-## Solution et Pourquoi Elle Fonctionne.
+## II. Solutions
 #### 1. Utiliser ``async/await`` au lieu de ``.then()``
 En réécrivant le code avec ``async/await``, chaque sous-promesse est explicitement __attendue__ avant de continuer. Cela crée un __flux linéaire__ où chaque étape dépend de la résolution de la précédente.
 * Exemple
@@ -42,18 +63,17 @@ En réécrivant le code avec ``async/await``, chaque sous-promesse est explicite
     await Promise.all(waitChapList);
     ````
     * Ici, Aucune étape ne commence avant la résolution de la précédente.
+    * Dans des situations similiaires, utiliser async/await rendre les codes  plus lisible et maintenable
 
-#### 2. Différence entre ``return`` et ``await``
-1. Avec ``await`` dans le ``map``:Quand on doit effectuer des opérations après la résolution de chaque promesse.
-    * L'exécution du code dans chaque itération attent que la promesse retournée par ``reportDataService.getQuestionList`` soit résolue avant de continuer à l'étape suivante.
-    * Comme map récoit une fonction ``async``, du coup chaque objet de la liste ChapList renvoie une promesse __indépendante__ et ``Promise.all`` attend la résolution de toutes ces promesses.
-
-2. Avec ``return`` dans le ``map`` (sans ``await``): Quand on ne doit pas effectuer d'opérations supplémentaires après la résolution de la promesse.
-    * Lorsque vous faire simplement un ``return ...``, la promesse retournée par ``getquestionList`` est ajoutée directement dans le tableau généré par ``.map``
-    * On ne fait plus d'opérations supplémentaire après la résolution de la promesse, comme ``addItem``.
+#### 2. Le rôle de ``return`` et ``await`` dans une fonction ``async``
+1. Das une fonction ``async``, même s'il n'y a pas de retour explicite, ``undefined`` sera retourné à la fin d'exécution du programme principale.
+2. ``await`` : Quand on doit effectuer des opérations après la résolution d'une promesse.
+    * Atteindre la résolution de la promesse pour lancer les codes suivants, souvent parce que les codes suivants nécessitent le résultat de la promesse.
+3. ``return``: Quand on veut juste la résolution de la promesse, on peut la retourner pour que d'autre partie de la programme la gère.(Par exemple, "Promise.all")
+    * On ne fait plus d'opérations supplémentaire après la résolution de la promesse.
 
 ## Problème avec ``Promise.all``
-``Promise.all`` attend un tableau plat contenant des promesses, et non des tableaux imbriqués. 
+``Promise.all`` attend un tableau plat contenant des promesses, et __non des tableaux imbriqués__ !!! 
 Avec un tableau imbriqué des promesses: Certaines promesses restent non résolues, ou l'exécution se termine prématurément.
 
 * Code avec d'erreur:
@@ -98,7 +118,7 @@ Avec un tableau imbriqué des promesses: Certaines promesses restent non résolu
 ## Retour des promesses dans ``map(async ...)``
 Si une promesse asynchrone n'est pas explicitement retournée dans un ``map(async ...)``,  elle ne sera pas prise en compte dans le tableau final. Donc utilisez bien les ``await``, ou retournes le.
 Exemples:
-* 1) Chaque fonction de rappel retourne implicitement une promesse, car elle est marquée comme ``async``. Et chaque promesse dans la fonction de rappel sont précédée d'un await qui les gèrent. Cela est suffisante pour que ``Promise.all`` fonctionne correctement.
+1. Chaque fonction de rappel retourne implicitement une promesse, car elle est marquée comme ``async``. Et chaque promesse dans la fonction de rappel sont précédée d'un await qui les gèrent. Cela est suffisante pour que ``Promise.all`` fonctionne correctement.
     ````js
     const promises = array.map(async (item) => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -107,7 +127,7 @@ Exemples:
     
     await Promise.all(promises); // Attendre la résolution de toutes les promesses
     ````
-* 2) Absence de retour de la promesse: Promise.all se résolvent immédiatement car la promesse n'est pas retourné.
+2. Absence de retour de la promesse: Promise.all se résolvent immédiatement car la promesse n'est pas retourné.
     ````
     const promises = array.map(async (item) => {
         new Promise((resolve) => setTimeout(resolve, 1000)); // La promesse est créée mais pas retournée
