@@ -1,6 +1,5 @@
-__The CSS can be both a blessing and a curse.__
-
-## 1. The Magical Centering Trick
+# Css est à la fois une bénédiction(_blessing_) et une malédiction(_curse_).
+## 1. Astuce(_trick_) pour centrer les éléments.
 ````css
 .center-me {
   position: absolute;
@@ -18,19 +17,19 @@ __Mais dans les projets récents, on utilise plus souvent le flebox:__
 }
 ````
 
-## 2. Smooth Scrolling(滚动) for the Win
-When we click a button to scroll to a specific balise, use this can give a smooth fashion effect 
+## 2. Défilement(_scrolling_) fluide(_smooth_) de la fênetre.
+Lorsqu'on clique sur un bouton pour défiler vers une balise spécifique, le code ci-dessous peut donner un effet fluide tout simplement:
 ````
 html {
     scroll-begavior: smooth;
 }
 ````
 
-and we can even do this in Javascript:
+Petit plus, on peut aussi le faire par JavaScript:
 ``document.documentElement.style.scrollBehavior = 'smooth';``
 
-## 3. Truncate Text with Ellipsis
-Sometimes you need to display text in a confined space, but you don't want it to wrap or overflow. This snippet will truncate your text and add an ellipsis (...) at the end:
+## 3. Tronquer(_truncate_) le texte avec des ellipses.
+Parfois on doit afficher un text dans une espace restreinte, mais on ne veut pas des retour à la ligne(_wrap_) ou des débordement(_overflow_). Ce fragment(_snippet__) trunquera ton texte et ajouter des ellipses à la fin:
 ````css
 .truncate {
   white-space: nowrap;
@@ -42,25 +41,25 @@ Sometimes you need to display text in a confined space, but you don't want it to
 * ``overflow: hidden;`` : Cache toute partie du texte qui dépasse les dimensions du conteneur.
 * ``text-overflow: ellipsis;``: Lorsqu'il est utilisé avec les deux proprietés mentionnent ci-dessus, il remplace la partie cachée du texte par des points de suspension(...) pour indiquer qu'il a davantage de texte qui n'est pas affiché.
 
-## 4. Simple CSS Gradient Background
-Gradients can add depth and interest to your design, here is how to create a simple linear gradient background:
+## 4. Fond dégradé(_gradient_)
+Dégradation peut renforcer ta conception(_design_), ce fragment te permet de créer un fond linéairement dégradé :
 ````css
 .gradient-bg {
   background: linear-gradient(to right, #ff7e5f, #feb47b);
 }
 ````
-use this website to create your gradient code: https://cssgradient.io/
+Utiliser cette site pour créer le fragment CSS de dégradement faciment: https://cssgradient.io/
 
 ## 5. The lobotomized Owl Selector
-This selector is incredibly useful for adding consistent spacing between elements:
+Ce selecteur est incroyablement utile pour ajouter des espaces uniformes(_consistent_) entre les éléments:
 ````css
 * + * {
   margin-top: 1.5em;
 }
 ````
-This selector targets any element that directly follows another element. Great way to maintain vertical rhythm in your layouts without having to add margin classes to every element.
+Ce selecteur vise(_target_) tous(_any_) les éléments qui suit directement un autre. Bonne façon(_way_) pour maintenir le rithme(_rhythm_) vertical dans ta disposition(_layout_) sans avoir besoin d'ajouter pour chaque élément.
 
-## 6. CSS Variable for Easy Theming
+## 6. Les varibles globales en CSS. 
 ````css
 :root {
   --primary-color: #007bff;
@@ -73,4 +72,4 @@ This selector targets any element that directly follows another element. Great w
   font-size: var(--font-size);
 }
 ````
-By defining variables in the :root pseudo-class, you can reuse these values throughout your stylesheet.
+En(_by_) definissant les variables dans le pseudo-class ``:root``, on peut les réutiliser à tout moment par l'appel de ``var(...)``.
