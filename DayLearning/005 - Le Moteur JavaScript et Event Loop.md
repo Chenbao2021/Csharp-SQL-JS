@@ -1,19 +1,22 @@
 # 0 - Concepts à retenir
-* Call Stack : Exécute les instructions synchrones
-* Microtask Queue : Les promesses et microtâches ont la priorité sur les tâches normales
-* Task Queue : Les tâches asynchrones sont traitées après les microtâches.
-* Event Loop : Coordonne le cycle en exécutant la Call Stack, puis les queues.
+* __Event Loop__ : Coordonne le cycle en exécutant la Call Stack, puis les queues.
+* __Call Stack__ : Exécute les instructions synchrones, le plus priorité.
+* __Microtask Queue__ : Les promesses et microtâches ont la priorité sur les tâches normales, comme:
+   * Les callbacks de promesses: ``.then()``, ``.catch()`` et ``finally()``.
+   * microtâches inclut les promesses, mais aussi: ``queueMicrotask()``, et ``MutationObserver``.
+* __Task Queue__ : Les tâches asynchrones sont traitées après les microtâches.
+   * Remarque: Les promesses sont bien asynchrones, mais on veut les gérer en priorité.
 
 # I - Le Moteur JavaScript
 Le moteur JavaScript(comme v8 utilisé dans Chrome et Node.js) exécute le code JavaScript. Il repose sur plusieurs composants clés:
-1. Call Stack(Pile d'exécution) :
+1. __Call Stack__(Pile d'exécution) :
     * Une pile où les instructions et les appels de fonctions sont empilés pour être exécutés dans l'ordre.
     * JS est __monothreadé__, ce qui signifie qu'il exécute une seule tâche à la fois dans la pile.
-2. Head(Tas) :
+2. __Head__(Tas) :
     * Une région mémoire utilisée pour stocker des objets et des données dynamiques.
-3. Event Loop :
+3. __Event Loop__ :
     * Un mécanisme qui coordonne l'exécution des tâches asynchrones et synchrones en gérant différentes files d'attente.
-4. Queus(Files d'attente) :
+4. __Queues__(Files d'attente) :
     * Les __Taks Queue__ et __Microtask Queue__ gèrent les tâches asynchrones et leur priorité.
 
 # II - Les composants du moteur JavaScript en détail
