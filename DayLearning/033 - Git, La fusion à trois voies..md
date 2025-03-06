@@ -11,14 +11,14 @@ Git va examiner ces trois versions pour décider:
 * __Quels changements peuvent être appliqués directement(sans conflits).__
 * __Quels changements sont en conflit et nécessitent une intervention manuelle.__
 
-#### A - Cas des codes non modifiés dans feature/79975
+### A - Cas des codes non modifiés dans feature/79975
 Si certaines lignes de code dans ``feature/79975`` sont __restées exactement comme dans ``master v1``__, alors:
 * Git détecte que __seule la branche master v3 a changé ces lignes__.
 * __Git applique directement les changements de ``master v3``__ à ces lignes, car __ta branche ne s'y oppose pas.__
 
 En resume, ceux qui sont important pour Git, __c'est le changements par rapport au dernière ancêtre commun des deux branche__, c'est ce qu'on appelle __la fusion à trois voies__.
 
-#### B - Cas des conflits lors du merge.
+### B - Cas des conflits lors du merge.
 Git ne sait pas quelle version de code à garder, donc on doit résoudre le conflit manuellement.
 
 # II - Outils et bonnes pratiques pour gérer les conflits.
