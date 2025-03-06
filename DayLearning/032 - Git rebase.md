@@ -1,4 +1,8 @@
-Git rebase est une commande intermédiaire à avancée dans Git. Ce n'est pas une commande de base comme ``git add/commit/push/pull``, mais elle est essentielle pour gérer proprement l'historique des commits.
+# 0 - Introduction
+Git rebase est une commande intermédiaire à avancée dans Git. Elle est __essentielle__ pour gérer proprement l'historique des commits.
+Ses deux principaux cas d'utilisation sont:
+1. ``git rebase -i branch-name``: Rejouer les commits de ta branche jusqu'à dernière ancêtre commun sur la dernière version de ``branch-name``.
+2. ``git rebase -i HEAD~10``: Réécrire les 10 derniers commits de la branche actuelle.  (Comme si notre branche est à ``HEAD~10``, et l'autre à ``HEAD``, on peut dire que leur __ancêtre commun__ est ``HEAD~10`` et on réapplique les changements en gardant leur ordre).
 
 # I - Peut-on modifier le message d'un commit?
 Parfois on veut modifier le message d'un ancien commit, voici plusieurs façon pour le modifier:
@@ -95,10 +99,13 @@ Quand on travaille sur une branche(``feature``) dérivée de ``main``, et que ``
 2. Avec ``git rebase``(Réécriture de l'historique, pas de commit de merge)
     ````git
     git checkout feature
-    git rebase main
+    git rebase -i main
     ````
-    * __Résultat__: Les commits de ``feature`` sont repositionnées(``main`` actuel suivi de tes commits sur ta branche) __au sommet de ``main``__, sans commit de merge.
-
+    * __Résultat__: Les commits de ``feature`` sont repositionnées(``main`` actuel suivi de tes commits sur ta branche) __au sommet de ``main``__ dans le même ordre __un après l'autre__, sans commit de merge.
+    S'il y a un commit crée un conflit:
+        1. Tu le résous.
+        2. Tu fais ``git add .``
+        3. Tu continues le rebase avec ``git rebase --continue`` pour __passer à commit suivant__.
 # VI - Est-il obligatoire d'utiliser ``git rebase`` ?
 __Il n'est pas obligatoire__, mais très recommandé __dans un workflow collaboratif__ pour garder un historique lisible.
 #### Quand utiliser ``git merge`` plutôt que ``git rebase``?
