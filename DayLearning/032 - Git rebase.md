@@ -1,7 +1,10 @@
 # 0 - Introduction
 Git rebase est une commande intermédiaire à avancée dans Git. Elle est __essentielle__ pour gérer proprement l'historique des commits.
 Ses deux principaux cas d'utilisation sont:
-1. ``git rebase -i branch-name``: Rejouer les commits de ta branche jusqu'à dernière ancêtre commun sur la dernière version de ``branch-name``.
+1. ``git rebase -i branch-name``: Réécrit l'historique en appliquant les commits de la branche actuelle sur ``branch-name``.
+    * Git déplace temporairement les nouveaux commits(Par rapport à ``branch-name``).
+    * Il replace la branche actuelle sur la nouvelle base.
+    * En suite, il réapplique vos commits un par un.
 2. ``git rebase -i HEAD~10``: Réécrire les 10 derniers commits de la branche actuelle.  (Comme si notre branche est à ``HEAD~10``, et l'autre à ``HEAD``, on peut dire que leur __ancêtre commun__ est ``HEAD~10`` et on réapplique les changements en gardant leur ordre).
 
 # I - Peut-on modifier le message d'un commit?
