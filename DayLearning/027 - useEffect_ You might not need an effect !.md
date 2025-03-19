@@ -46,6 +46,8 @@ Soit deux props ``todos``, ``filer``, et  on veut une variable d'état ``visible
     // ...
     ````
     * En général ça ira très bien, mais si ``getFilteredTodos()`` est un peu lente, alors on peut mémoriser ce calcule en le englobant dans un ``useMemo``.
+      * Si la seule action du useEffect est de setter un state, il faut faire un ``useMemo``. Un useEffect va exécuté après le premier rendu, donc il va faire un autre rendu s'il y a un set fonction, et c'est gaspillé.
+      * En plus, ça permet de gérer un state en moins! Cela évite des bugs éventuels.
 __Quand quelque chose peut être calculé à partir des props et variables d'état existante, ne le mettez pas dans l'état mais calculez-le pendant le rendu.__, cela permet de :
 * Plus performant (Pas de mises à jour en cascade).
 * Plus simple(moins de code).
