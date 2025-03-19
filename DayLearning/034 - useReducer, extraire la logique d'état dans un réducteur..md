@@ -2,8 +2,8 @@ useReducer est un Hook React qui nous permet d'ajouter un __réducteur__ à votr
 
 # I - Extraire la logique d'état dans un réducteur.
 * __Réducteur__: Une fonction extérieur au composant, qui consolide toute la logique de mise à jour d'état. Facilité la gestion des états qui sont dispersées dans des nombreux gestionnaires d'événements.
-    * _Gestionnaire d'événement_: Ce sont des fonctions de type: ``handle...``, ``onClick...``, etc.
-
+   * _Gestionnaire d'événement_: Ce sont des fonctions de type: ``handle...``, ``onClick...``, etc.
+   * Souvent les juniors voient des __réducteurs__ avec de switch, mais un __reducteur__ n'a pas besoin d'être avec un switch, même avec un if/else, une opération ternaire peut marcher! C'est juste une fonction qui décrit comment une action va mettre à jours les données (state renvoyé par useReducer). 
 ### A. Consolider la logique d'état avec un réducteur.
 Lorsque votre projet évolue, la quantité de logique(gestionnaire d'événement) qu'il contient grandit également.  Pour réduire cette complexité et garder votre logique en un seul endroit facile d'accès, on peut __déplacer__ dans une fonction unique à l'extérieur du composant, appelée __réducteur__.
 
