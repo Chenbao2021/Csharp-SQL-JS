@@ -1,5 +1,4 @@
-* ``immer`` est une bibliothèque JavaScript populaire qui facilite la manipulation des états immuables. Bien qu'il soit principalement utilisé avec ``useReducer`` ou Redux, il a d'autres cas d'usages intéressants.
-* ``lodash`` est une bibliothèque JavaScript populaire offrant de nombreuses fonctions utilitaires pour manipuler les objets, tableaux, chaînes de caractères et bien plus. Elle est souvent comparée à ``immer`` pour certaines fonctionnalités, mais elles n'ont pas le même objectif.
+``immer`` est une bibliothèque JavaScript populaire qui facilite la manipulation des états immuables. Bien qu'il soit principalement utilisé avec ``useReducer`` ou Redux, il a d'autres cas d'usages intéressants.
 
 # I. Immer
 ### A - Pourquoi utiliser Immer?
@@ -15,7 +14,12 @@ Immer repose principalement sur la fonction ``produce``, qui crée un "draft"(br
     C'est la forme standard où il prend l'état initial et une fonction qui modifie un "draft".(Retourne __immédiatement__ le nouvel état basé sur ``state``).
 2. ``produce(producerFunction)``
     Cette version __retourne une fonction__ qui attend ensuite l'état initial. C'est très utile avec ``useState`` et ``setState``.(``setState`` appelle la fonction avec ``prevState`` automatiquement).
-
+3. Dans ``produce``, il n'y a pas besoin d'un ``return`` explicite parce qu'Immer gère la création et le retour du nouvel état en interne.
+    1. Il crée une copie de ``state`` sous forme d'un proxy mutable(appelé ``draft``).
+    2. Il permet de modifier directement ce ``draft``(Contrairement à un état immuable classique).
+    3. Une fois la fonction exécutée, Immer génère et retourne automatiquement une version __immuable__ de l'état mise à jour.(Avec tous les modifications que t'as effectué sur ``draft``).
+    4. __Donc, pas de ``return`` explicite !!__
+ 
 Puis, il génère un __nouvel état immuable__.
 * ````js
     import { produce } from "immer";
