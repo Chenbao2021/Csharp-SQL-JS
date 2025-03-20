@@ -58,7 +58,7 @@ Par exemple:
 ``Immer`` est intégré nativement dans Redux.
 
 ### D - Utilisation en dehors de reducers
-##### 1. Utiliser ``produce`` d'Immer avec ``useState``.
+#### 1. Utiliser ``produce`` d'Immer avec ``useState``.
 Lorsqu'on manipule des objets imbriqués, il faut faire attention à __ne pas modifier l'état directement__ et à __copier chaque niveau modifié__.
 * Sans immer:
     ````js
@@ -77,7 +77,7 @@ Lorsqu'on manipule des objets imbriqués, il faut faire attention à __ne pas mo
     }) )
     ````
 
-##### 2. Éviter les erreurs de mutation accidentelle
+#### 2. Éviter les erreurs de mutation accidentelle
 React ne détecte __que les références modifiées__. Si on change une valeur __sans modifier la référence__, React ne re-render pas.
 * Sans immer:
     ````js
@@ -97,7 +97,7 @@ React ne détecte __que les références modifiées__. Si on change une valeur _
     setState(prevState => produce(prevState, draft => {draft.count += 1;});
     ````
 
-##### 3. Facilite les mises à jour conditionnelles
+#### 3. Facilite les mises à jour conditionnelles
 Avec ``produce``, les mises à jour conditionnelles sont __plus propres et plus sûres__.
 * Sans immer:
     ````js
@@ -121,7 +121,7 @@ Avec ``produce``, les mises à jour conditionnelles sont __plus propres et plus 
     * Lisibilité améliorée.
     * Aucune copie manuelle inutile.
 
-##### 4. Utile dans des applications plus grandes
+#### 4. Utile dans des applications plus grandes
 Dans une grande application avec beaucoup d'état imbriqués, utiliser ``produce`` dès le début permet d'éviter:
 * Des copie-collées de ``...prevState``.
 * Des erreurs d'oubli de copie qui causent des bugs difficiles à déboguer.
@@ -130,3 +130,79 @@ Dans une grande application avec beaucoup d'état imbriqués, utiliser ``produce
 ### E - Quand ne pas utiliser Immer.
 * Si le state est un simple ``boolean``, ``string`` ou ``number``.
 * Pas d'objet imbriqué.
+
+# II - Immer et Proxy.
+Un ``proxy`` en JS est une fonctionnalité qui permet d'__intercepter__ et de __contrôler__ l'accès à un objet.
+* C'est comme un "gardien", qui surveille les interaction avec un objet et permet d'ajouter un comportement personnalisé.
+* Immer utilise ``proxy`` pour créer un état "mutable" en apparence, tout en restant réellement immuable.
+
+### A. Comment fonctionne un ``Proxy`` en JS?
+Un ``Proxy`` prend deux paramètres:
+1. L'objet cible: Celui qu'on veut contrôler.
+2. Un "handler": Un objet contenant des "traps"(``get``, ``set``, etc.) qui interceptent les accès.
+
+Exemple simple d'un ``Proxy``
+* ````js
+    const user = {name: "Alyce", age: 25}
+    const handler = {
+        get(target, key) {
+            console.log(`Accès à la clé : ${key}`);
+            return target[key]; // Retourne la valeur originale
+        },
+        set(target, key, value) {
+            console.log(`Modification : ${key} = ${value}`);
+            target[key] = value;
+            return true; // Indique que l’opération a réussi
+        }
+    }
+    const proxyUser = new Proxy(user, handler);
+    console.log(proxyUser.name); // 🔥 "Accès à la clé : name" puis "Alice"
+    proxyUser.age = 30; // 🔥 "Modification : age = 30"
+    console.log(proxyUser.age); // 🔥 "Accès à la clé : age" puis "30"
+    ````
+    * On intercepte les lectures et modifications(``get``, ``set``);
+    * On peut empêcher des modifications ou ajouter des logs.
+    * L'objet original ``user`` est directement affecté(car ici, on ne travaille pas en mode immuable).
+
+### B. Pourquoi Immer utilise un ``Proxy`` ?
+Immer utilise ``Proxy`` pour permettre de modifier un objet "comme si c'était mutable", tout en restant immuable.
+* Problème sans ``Immer``:
+    ````js
+    const state = { user: { name: "Aluce", age: 25 }}:
+    const newState = { ...state, user: { ...state.user, age: 30 } }
+    ````
+* Solution avec Immer(``Proxy``):
+    ````js
+    const state = { user: { name: "Alice", age: 25 } }
+    const newState = produce(state, draft => {
+        draft.user.age = 30
+    });
+    ````
+
+### C. Fonctionnement du ``Proxy`` dans Immer.
+Quand on utilise ``produce(state, draft => {...])``: 
+1.  Immer crée un Proxu du ``state``(C'est le ``draft``).
+2.  Toute modification sur ``draft`` est interceptée et stockée.
+3.  À la fin, Immer génère une nouvelle version de l'objet, immuable.
+
+Voici une version simplifié de ``Proxy``, tel qu'on ne modifie pas ``target``:
+* ````js
+    function createImmrLikeProxy(base) {
+			let changes = {}; // stocker les changements.
+			return new Proxy(base, {
+				get(target, key) {
+					return key in changes ? changes[key] : target[key];
+				},
+				set(target, key, value) {
+					changes[key] = value;
+					return true;
+				},
+				apply(target, thisArg, args) {
+					return { ...target, ...changes };
+				}
+			})
+		}
+    ````
+	* On écrit pas directement sur l'objet ``target``, sinon sur ``changes``.
+	* On stocke les changements dans un objet temporaire.(``changes``).
+	* À la fin, on fusionne les changements avec l'original pour créer un __nouvel objet immuable__.
