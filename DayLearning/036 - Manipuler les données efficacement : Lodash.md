@@ -1,15 +1,13 @@
 # I - Introduction à Lodash.
 On a vu hier ``Immer``, qui facilite la manipulation des objets immuable, et maintenant on va s'intéresser à ``loadash``, qui fournir des utilitaires pour manipuler efficacement __toutes sortes de données__ (objets, tableaux, chaînes, fonctions, etc.)
-* Évite la duplication de code.
-* Améliore la lisibilité et la maintenabilité.
-* Contient des fonctions puissantes pour traiter __tableaux, objets, chaînes de caractères, nombres__.
 
 Par exemple, pour effectuer une copie profonde et manipuler des données:
-* ````js
-    import _ from "lodash";
-    const newState = _.cloneDeep(objectImbriqué);
-    ````
-    * On a donc crée un nouveau objet, et on peut la manipuler comme on veut.
+````js
+import _ from "lodash";
+const newState = _.cloneDeep(objectImbriqué);
+````
+* On a donc crée un nouveau objet, et on peut la manipuler comme on veut.
+* Le ``_``(underscore) qu'on importe avec Lodash est une __convention de nommage__ très courante dans la communauté JS de Lodash.(Qui est un successeur de la bibliothèque _Undersocre.js_)
 
 # II - Fonctions essentielles de Lodash.
 ### A. Manipulation des tableaux.
@@ -35,14 +33,42 @@ Par exemple, pour effectuer une copie profonde et manipuler des données:
     console.log(_.get(user, "profile.name", "Default Name"); // Alice.
     console.log(_.get(user, "profile.age", "N/A"); // N/A.
     ````
+	* Mais si on fait une faute de frappe, la méthode ``_get`` va juste retourner un ``undefined`` au lieu d'erreur. Donc faut faire attention à dex chemins données! 
+	On peut faire avec autocompletion, __en précisant les chemins antérieur__ jusqu'à l'objet qu'on veut retourner.
+* ``_.has``: Peut vérifier si une propriété existe ou pas.
+	````js
+	const safeGet(obj, path) {
+		if(!_.has(obj, path)) {
+			cosole.warn(`chemin invalide: ${path}`)
+		}
+		return _.get(obj, path);
+	}
+	````
 * ``_.set``: Modifier un objet imbriqué sans soucis. // __Ceci modifie directement l'objet!!!__
     ````js
     const user = { profile: {name: "Alice" }};
     _.set(user, "profile.age", 25);
     console.log(user); // {profile: {name: "Alice", age: 25}}
     ````
-* ``_.merge`` vs ``_.assign``: Fusionner des objets.
-    
+* ``_.merge``(Récursive) vs ``_.assign``(Superficielle): Fusionner des objets.
+  * ``_.assign``: Il copie les propriétés propres d'un ou plusieurs objets dans un objet cible, __sans descendre dans les sous-objets__.
+	````js
+	import _ from "lodash";
+	const obj1 = { a: 1, b: { x: 10 } };
+	const obj2 = { b: { y: 20}, c: 3 };
+	const result = _.assign({}, obj1, obj2);
+	// { a:1, b:{y: 20}, c: 3 }
+	````
+	  * ``obj2.b`` écrase ``obj1.b``, donc l'ordre est important.
+	  * On a un objet vide comme première paramètre pour éviter de modifier obj1.
+	
+  * ``_.merge``: Il fusionne récursivement les propriétés des objets. Donc s'il y a des objets imbriqués, ils sont combinés au lieu d'être écrasés.
+	````js
+	const result = _.merge({}, obj1, obj2);
+	// { a: 1, b: {x: 10, y: 20}, c: 3}
+	````
+    * Ici, on a ``b`` contient à la fois ``x`` et ``y`` par fusion profonde.
+
 * ``_.pick`` et ``_.omit``: Extraire ou exclure des clés d'un objet.
     ````js
     const obj = { name: "Alice", age: 25, city: "Paris"}
