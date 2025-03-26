@@ -1,17 +1,17 @@
 # Rappel : Les trois zones/phrases qui décrivent l'état des fichiers
 1. __Working Directory__(ou __working Tree__)
-    * C'est l'état actuel de vos fichiers sur votre système de fichiers.
-    * Tout fichier que vous créez, supprimez ou modifiez se trouve d'abord dans cette zone.
+    * C'est l'état actuel de vos fichiers sur votre système de fichiers. __Ce que tu vois dans ton visual studio code.__
         * Dans la commande __git status__, ces fichiers sont considérés comme _untracked_ s'ils n'ont pas encore été ajoutés(Par __git add__), ou _modified_ s'ils sont déjà suivis mais ont changé.
         
 2. __Index__ (ou __Staging Area__)
-    * Lorsqu'on fait ``git add <fichier``, on copie l'état actuel de ces fichiers __depuis Working Directory vers l'index__.
-        * __Un fichier peut être dans l'index et non modifié dans le répertoire de travail__(Aucune modification en attente).
-        * __Un fichier peut être modifié dans le répertoire de travail mais non ajouté à l'index__(``git status`` le ontre comme "untracked")
-        * __Un fichier peut être ajouté à l'index(``git add``) mais encore modifié dans le répertoire de travail__(Cela signifie que l'index a une version intermédiaire qui n'est pas la dernière version).
-    * À ce stade, on dit à Git: __Ces changements je veux les inclure dans mon prochain commit__.
+	* On fait un snapshot de ce fichier __depuis Working Directory__.
+		* __Un fichier peut être dans l'index et non modifié dans le répertoire de travail__(Aucune modification en attente).
+		* __Un fichier peut être modifié dans le répertoire de travail mais non ajouté à l'index__(``git status`` le montre comme "untracked")
+		* __Un fichier peut être ajouté à l'index(``git add``) mais encore modifié dans le répertoire de travail__(Cela signifie que l'index a une version T1, et dans Working directory on aura une version T2).
+	* C'est un ``snapshot``! Donc si tu fais des modifications après ``git add .``, tu dois faire un nouveau snapshot.
+	* Git saura que __Ces changements doivent les inclure dans le prochain commit__.
 3. __Local Repository__(ou __Local Head/Commits__)
-    * Quand on fait ``git commit``, Git regarde ce qui est dans l'index, crée un __snapshot__ de ces fichiers, et l'ajoute en tant que __nouveau commit__ dans votre historique local(HEAD).
+    * Quand on fait ``git commit``, Git prend les snapshots qui sont dans l'index et les ajoute en tant que __nouveau commit__ dans votre historique local (HEAD).
     * Ce commit fait partie de votre __Local Repository__, c'est-à-dire la base de données Git(.git) contenue dans votre projet.
     * On pousse(``git push``) nos commits du __local Repository__ vers le __Remote Repository__(Par ex. GitHub) enfin pour partager nos codes avec l'équipe.
     
@@ -80,13 +80,13 @@ En résumé, __Rétablir__ peut signifier __Refaire__(l'inverse d'Annuler) dans 
 # III - Réinitialiser 
 La commande ``git reset`` permet de __déplacer le HEAD(et la référence de la branche courante) vers un autre commit__, en choisissant ce qu'on fait des modifications dans l'espace de travail(working directory) et dans l'index(staging area).
 ## A. git reset --soft <commit>
-* __Conserve toutes les modifications dans l'index(On peut immédiatement faire ``git commit``)__.
-* Ne change rien dans l'index.
-* Ne change rien dans le working directory.
+* __Conserver les snapshots dans l'index et les codes dans Working directory__.
+* Ne change rien dans l'index(On a toujours le snapshot des codes antérieurs).
+* Ne change rien dans le working directory.(On a les codes les plus récents).
 * Ex: ``git reset --soft HEAD`` :Réinitialise seulement HEAD(Le commit précédent redevient le dernier commit).
 
 ## B. git reset --mixed <commit> (mode par défaut)
-* L'index(staging area) est vidé(Tous les fichiers qui étaient en staging sont déstagés).
+* L'index(staging area) est vidé(On supprime les snapshots du code).
 * Les fichiers dans le répertoire de travail restent intacts(Les modifications restent sur ton disque, mais elles ne sont plus suivies dans la staging area) . Dans ce cas, on doit refaire un  ``git add`` avant de valider (``git commit``).
 
 ## C. git reset --hard <commit>
