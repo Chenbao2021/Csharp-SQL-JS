@@ -6,7 +6,7 @@ Ses deux principaux cas d'utilisation sont:
     * Il replace la branche actuelle sur la nouvelle base.
     * En suite, il réapplique vos commits un par un.
 2. ``git rebase -i HEAD~10``: Réécrire les 10 derniers commits de la branche actuelle.  (Comme si notre branche est à ``HEAD~10``, et l'autre à ``HEAD``, on peut dire que leur __ancêtre commun__ est ``HEAD~10`` et on réapplique les changements en gardant leur ordre).
-
+3. __Actuellement, ajouter chaque fois l'option ``i``, c'est plus clair.__
 # I - Peut-on modifier le message d'un commit?
 Parfois on veut modifier le message d'un ancien commit, voici plusieurs façon pour le modifier:
 * __Dernier commit(Non poussé) :__
