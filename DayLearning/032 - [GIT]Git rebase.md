@@ -54,23 +54,32 @@ __Étapes détaillées__:
 7. Git applique les modifications.
 
 On voit deux mot clés ``pick`` et ``reword``, en effet, on a encore d'autres, voici une liste des actions disponibles dans ``git rebase -i``:
+
+# III - Les options de rebase
 |commandes|Effet|
 |--|--|
-|``pick`` ou ``p``| Conserver le commit tel quel.|
+|``pick`` ou ``p``| (Par défaut) Conserver le commit tel quel.|
 |``reword`` ou ``r``|Modifier uniquement le message du commit|
-|``edit`` ou ``e``|Permet de modifier le commit(fichiers, message, etc.)|
-|``squash`` ou ``s``|Fusionne ce commit avec le précédent en gardant le messages de commit après fusion.|
+|``edit`` ou ``e``|Permet de modifier le commit(fichiers, message, etc.).|
+|``squash`` ou ``s``|Fusionne ce commit avec le précédent( _Le plus ancien_ ) en gardant le messages de commit après fusion.( Tu auras tous les messages de commits fusionnés )|
 |``fixup`` ou ``f``|Comme ``squash``, mais ignore le message de ce commit..|
 |``drop`` ou ``d``|Supprime le commit.|
 |``exec`` ou ``e``|Exécute une commande shell après le commit.|
 * Les commandes sont faites un après l'autre, donc si on a un fixup suivie de squash, alors squash execute en premier, une fois termine, on exécute fixup avec le résultat.
-# III - Comment voir la liste des commits précédents?
+
+* Certaines options ne sont pas évidents:
+	* ``edit``: Lorsque tu choisis cette option pour un commit, l'exécution de ``rebase`` va s'arrêter sur cette commit. Et que tu peux donc modifier des fichiers, puis inclure ces modifications dans cette commit. Pour toutes les modifications, il te faut:
+		* ``git add .``: Prépare les fichiers modifiés à être commités(On dit: "Staged changes").
+		* ``git commit --amend``: Met à jour le commit existant avec ces changements.
+			(Ce n'est pas un commit normal !!!)
+
+# IV - Comment voir la liste des commits précédents?
 Utilise ``git log`` pour afficher les commits.
 * Version détaillée: ``git log``
 * Version compacte: ``git log --oneline``
 * Limiter le nombre de commits affichés: ``git log -n 5``
 
-# IV - Comment manipuler l'éditeur(Vim)?
+# V - Comment manipuler l'éditeur(Vim)?
 Vim est l'éditeur par défaut sur Linux/macOS.
 * Touche ``i`` -> Modifier
 * Touche ``Échap(ESC)`` -> Quitter le mode édition, et permet de saisir des commandes.
@@ -81,7 +90,7 @@ Si tu veux utiliser un autre éditeur que Vim:
 * Pour Nano: ``git config --global core.editor nano``
 * Pour VS Code: ``git cofig --global core.editor "code --wait"``
 
-# V - Quand utiliser ``git rebase``?
+# VI - Quand utiliser ``git rebase``?
 ``git rebase`` permet de réécrire l'historique Git et est principalment utilisé dans deux cas:
 #### Cas 1: Nettoyer l'historique avant un push
 Avant de partager son travail, il est __mieux de garder un historique propre__ en fusionnant ces commits.
@@ -105,7 +114,7 @@ Quand on travaille sur une branche(``feature``) dérivée de ``main``, et que ``
         1. Tu le résous.
         2. Tu fais ``git add .``
         3. Tu continues le rebase avec ``git rebase --continue`` pour __passer à commit suivant__.
-# VI - Est-il obligatoire d'utiliser ``git rebase`` ?
+# VII - Est-il obligatoire d'utiliser ``git rebase`` ?
 __Il n'est pas obligatoire__, mais très recommandé __dans un workflow collaboratif__ pour garder un historique lisible.
 #### Quand utiliser ``git merge`` plutôt que ``git rebase``?
 * __Sur une branche publique partagée avec d'autres développeurs__.
@@ -117,7 +126,7 @@ __Il n'est pas obligatoire__, mais très recommandé __dans un workflow collabor
 * ``git merge``: Si l'historique n'a pas besoin d'être nettoyé.
 * ``git cherry-pick``: Si on veut récupérer __un seul commit__ d'une autre branche.
 
-# VII - Exemple d'une rebase.
+# VIII - Exemple d'une rebase.
 1. Vérifier qu'on est bien sur notre branche local(``feature-branch`` par exemple):
     ``git checkout feature-branch``
 2. Lance un rebase interactif sur les 10 derniers commits.
