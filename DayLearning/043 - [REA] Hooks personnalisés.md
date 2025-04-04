@@ -207,3 +207,81 @@ Souvent on utilise des fetchs pour récupérer des données depuis le back, puis
 		 return   {data, loading, error}
 	}
 	````
+### B. ``useWindowSize``
+Avoir un tell hook personnalisé permet de s'adapter l'UI en fonction de la taille de la fenêtre.
+````js
+import { useState, useEffect } from 'react';
+
+function useWindowSize() {
+	const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowSize({width: window.innerWidth, height: window.innerHeight});
+		}
+
+		window.addEventListener('resize', handleResize);
+	}, []);
+
+	return windowSize;
+}
+````
+Utilisation dans un component:
+````js
+function ResponsiveComponent() {
+	const {width, height} = useWindowSize();
+
+	return (
+		<div>
+			<p>Larger: {width}px</p>
+			<p>Hauteur: {height} </p>
+		</div>
+	)
+}
+````
+
+### C. ``useLocalStorage``
+Ce hook permet de sauvegarder et restaurer l'état du composant dans le ``localStorage`` du navigateur.
+````js
+import {useState, useEffect} from 'react';
+
+function useLocalStorage<T>(key: string, initialValue: T) {
+	const [storedValue, setStoredValue] = useState<T>(() => {
+		try {
+			const item = window.localStorage.getItem(key);
+			return item ? JSON.parse(item) as T: initialvaue;
+		} catch (error) {
+			return initialValue;
+		}
+	});
+
+	const setValue = (value: T | ((val: T) => T)) => {
+		try {
+			const valueToStorage = value instanceof Function ? value(storedValue) : value;
+			setStoredValue(valueToStore);
+			window.localStorage.setItem(key, JSON.stringify(valueToStore));
+		} catch(error) {
+			console.error(error);
+		}
+	}
+
+	return [storedValue, setValue] as const;
+}
+
+export default useLocalStorage;
+````
+Et son utilisation dans un composant:
+````js
+function Preferences() {
+	const [theme, setTheme] = useLocalStorage('theme', 'light');
+
+	return (
+		<div>
+			<p> Thème actuel: {theme}</p>
+			<button onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
+				changer de thème.
+			</button>
+		</div>
+	)
+}
+````
