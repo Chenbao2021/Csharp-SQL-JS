@@ -18,8 +18,14 @@ Les symboles en préfixe: ``^``, ``~``, etc.
 * ``>=1.2.0``: Version supérieur ou égale à 1.2.0
 * ``>=1.0.0 <2.1.0``: On donne un intervalle plus large.
 
-Par contre ``npm i package@latest`` écrase la version du package même si tu avais un ``^`` avant.
-Sinon, il va chercher la version compatible dans cette plage autorisée.(Comme : ``axios: ^1.3.0`` peut installer tous les version qui ``>= 1.3.0`` et ``< 2.0.0``)
+Par contre ``npm i [package]@latest`` écrase la version du package même si tu avais un ``^`` avant.
+Sinon, sans ``latest``, il va chercher la version compatible dans cette plage autorisée.(Comme : ``axios: ^1.3.0`` peut installer tous les version qui ``>= 1.3.0`` et ``< 2.0.0``)
+
+### Quelques commandes ``npm``
+1. ``npm i [package]``: Installer le package selon la version spécifiée dans le ``package.json``.
+2. ``npm i [package]@latest``: Installe la toute dernière version disponible de la lib depuis le registre npm. Et met à jour le ``package.json``(Et ``package-lock.json``) avec cette version précise.
+3. ``npm update lib``: Met à jour la lib dans les limites définies par ton ``package.json``.
+	* ``npm update`` suivie de ``npm outdated``: Met à jour tous les paquets vers la version "Wanted".(Selon les contraintes dans ``package.json``)
 
 ## II - Créer une branche dédiée pour tester les mises à jour des packages.
 Et cela n'impactera pas la branche ``master`` tant que tu ne fais pas de merge.
