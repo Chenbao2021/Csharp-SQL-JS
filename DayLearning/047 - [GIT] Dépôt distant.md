@@ -2,6 +2,9 @@
 ### A. Les commandes à connaître.
 * ``git branch -r``: Permet de voir les __branches distantes__ dans Git.
 * ``git fetch``: Permet de récupérer __les dernières informations__ sur les branches distantes(Nouvelles branches, commits récents, etc.). Mais si une branche a été supprimée sur le dépôt distant, elle reste affichée en tant que __dépôt distant local__.
+	* Après fetch, voici quelques commandes utiles pour visualiser les différences:
+		* ``git log HEAD..origin/main``: Montre les commits qui sont dans ``origin/main`` mais qui ne sont pas encore dans ta branche locale.
+		* ``git diff --stat origin/main``: Voir un résumé des différences(fichiers modifiés, ajoutés, supprimés).
 * ``git fetch --prune``: Ce commande fait la même chose que ``git fetch``, mais elle permet de nettoyer les __dépôt distant local__ fantôme.
 * ``git branch -vv``: Vérifie si les branches locales pointent vers une branche distante encore existante. Si c'est le cas, tu verras ``gone]`` dans le retour.
 
