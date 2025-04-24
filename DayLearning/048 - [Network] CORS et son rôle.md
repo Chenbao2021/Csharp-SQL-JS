@@ -83,7 +83,68 @@ Imagine ce scénario(Sans protection CORS):
 	Grâce à CORS, il bloque automatiquement toute requête JS vers un autre domaine, sauf si le serveur dit:
 	* Pas de souci, ce domaine est autorisé.
 
-Grâce au 5 étapes ci-dessus, on peut se rendre compte que le risque de sécurité n'est pas uniquement le fait qu'un site externe puisse faire une requête... Mais surtout que le navigateur(comme Chrome) peut automatiquement ajouter les cookies de session dans le header ``Cookie`` si on ne met aucune protection.
+Grâce au 5 étapes ci-dessus, on peut se rendre compte que le risque de sécurité n'est pas uniquement le fait qu'un site externe puisse faire une requête... __Mais surtout que le navigateur(comme Chrome) peut automatiquement ajouter les cookies de session dans le header ``Cookie`` si on ne met aucune protection__.
+
+# III - Cookies dans CORS
+### 1. Les cookies sont associés à un domaine spécifique
+Quand un serveur (comme banque.com) envoie un cookie:
+````http
+Set-Cookie: session=abcd1234; Domain=banque.com
+````
+-> Le navigateur __stocke ce cookie__ et le lie à __banque.com__. C'est à dire lorsque __banque.com__ est le destinataire d'une requête.
+
+### 2. Quand le navigateur envoie-t-il ce cookie?
+Uniquement si la requête va vers banque.com, et:
+* Si le domaine correspond(``banque.com``).
+* Si le chemin(``path``) correspond.
+* Si la requête est faite:
+	* Par une page de banque.com (même origin)
+	* Ou __par un script sur un autre domaine avec ``credentials: "include"`` Et si le serveur a autorisé ça via CORS__.
+
+### 3. Exemple qui montre ce qu'il se passe vraiment:
+1. Un utilisateur est connecté sur __banque.com__:
+	* Il a un __cookie de session__: ``session= abcd1234``.
+	* Ce cookie est stocké __dans son navigateur__, et lié à ``banque.com``.
+2. Il va ensuite sur __pirate.com__, un site malveillant.
+3. Le site pirate exécute ce JS:
+	````js
+	fetch("https://banque.com/api/vitement", {
+		method: "POST",
+		credentials: "include",
+		body: JSON.stringify({ montant: 9999, vers: "compte-du-pirate" }),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+	````
+4. Le navigateur lit ça et dit:
+	Ok, je fais une requête vers banque.com.
+	Tu as dit ``credentials: "include"`` -> Je dois __ajouter les cookies de banque.com__ à la requête (Car ce sont MES cookies, pour banque.com).
+5. Résultat: La requête est __envoyée avec le cookie de session__ de l'utilisateur, sans que lui le sache.
+
+
+Cette attaque a un nom: CSRF [Cross-Site Request Forgery]
+
+# IV - CORS n'est pas une sécurité du serveur.
+Même si le navigateur bloque la réponse, le serveur a déjà exécuté l'action !
+* Il faut ajouter __CSRF token__. (À regarder plus tard).
+* Ou ``SameSite = Strict``: Le navigateur n'enverra jamais les cookies dans une requête cross-site, même avec ``credentials: "include"``.
+	````js
+	res.cookie("session", "abcd123", {
+		httpOnly: true,
+		sameSite: "Strict",
+		secure: false
+	})
+	````
+* Ou vérifier l'origine de la requête.
+	````js
+	const origin = req.get("origin")
+	if( origin !== "http://localhost:4000") {
+		return res.status(403).send("Origine non autorisée");
+	}
+	````
+
+
 
 
 
