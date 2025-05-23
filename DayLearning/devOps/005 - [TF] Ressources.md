@@ -120,7 +120,8 @@ provider "azurerm" {
 
 # III - App Service + Plan.
 ### A. C'est quoi un __App Service__ dans Azure?
-UN __App Service__ est un service __PaaS__(Platform as a Service) d'Azure qui te permet d'héberger des applications web, des API REST, ou même des bacends, sans avoir à gérer de machine virtuelle toi-même.
+UN __App Service__ est un service __PaaS__(Platform as a Service) d'Azure qui te permet __d'héberger des applications web__, __des API REST__, ou __même des backends(Node.js, Python, .NET, etc.)__, sans avoir à gérer de machine virtuelle toi-même.
+* Par contre, __Key Vault__, __Storage__, et __Web API__, etc.) ne sont pas des App Services.
 
 C'est à dire, on peut déployer:
 * Une application Node.js, Python, .NET, Java, PHP.
